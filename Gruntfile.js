@@ -10,7 +10,7 @@ module.exports = function(grunt) {
       all: ['spec/']
     },
     jshint: {
-      files: ['Gruntfile.js', 'package.json', 'spec/**/*.js', 'src/**/*.js', 'test/**/*.js'],
+      files: ['Gruntfile.js', 'package.json', 'public/js/*.js'],
       options: {
         // options here to override JSHint defaults
         globals: {
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['src/*.js', './server.js', './public/js/*.js', './spec/*.js', './test/*'],
+      files: ['./server.js', './public/**', './test/**/*.js'],
       tasks: ['express', 'jasmine_node', 'jshint', 'mocha_casperjs']
     },
     express: {
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
       options: {
       },
       files: {
-        src: ['test/*.js']
+        src: ['test/**/*.js']
       }
     }
   });

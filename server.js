@@ -3,11 +3,10 @@ var app = express();
 var server = require('http').createServer(app);
 var port = process.env.PORT || 3000;
 
-app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(request, response) {
-  response.render('index.html');
+app.get('*', function(request, response) {
+  response.sendFile(__dirname + '/public/views/index.html');
 })
 
 server.listen(port, function() {
