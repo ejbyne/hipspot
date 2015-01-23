@@ -1,0 +1,40 @@
+{
+  "name": "hipspot",
+  "version": "1.0.0",
+  "description": "This is our final project.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ejbyne/hipspot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ejbyne/hipspot/issues"
+  },
+  "homepage": "https://github.com/ejbyne/hipspot",
+  "devDependencies": {
+    "casper-chai": "^0.2.1",
+    "casperjs": "^1.1.0-beta3",
+    "chai": "^1.10.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-express-server": "^0.4.19",
+    "grunt-jasmine-node": "^0.2.1",
+    "grunt-mocha-casperjs": "^1.4.1",
+    "jasmine-core": "^2.1.3",
+    "jshint": "^2.6.0",
+    "mocha": "^2.1.0",
+    "mocha-casperjs": "^0.5.3",
+    "nodemon": "^1.3.2",
+    "phantomjs": "^1.9.13"
+  },
+  "dependencies": {
+    "express": "^4.11.1",
+    "twit": "^1.1.19"
+  }
+}
