@@ -23,8 +23,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: ['src/*.js', './server.js', './public/js/*.js', './spec/*.js', './test/*'],
-      // tasks: ['express', 'jasmine_node', 'jshint', 'mocha_casperjs']
-      tasks: ['jshint']
+      tasks: ['express', 'jasmine_node', 'jshint', 'mocha_casperjs']
     },
     express: {
       options: {},
