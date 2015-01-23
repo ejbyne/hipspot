@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "express": "^4.11.1",
+    "mongoose": "^3.8.21",
     "twit": "^1.1.19"
   }
 }
