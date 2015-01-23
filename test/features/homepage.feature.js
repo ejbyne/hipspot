@@ -10,4 +10,10 @@ describe('Homepage', function() {
     });
   });
 
+  it('contains a map element', function() {
+    casper.then(function() {
+      expect('map').to.be.inDOM;
+    });
+  });
+
 });
