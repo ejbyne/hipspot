@@ -21,9 +21,18 @@ module.exports = function(grunt) {
         }
       }
     },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          quiet: false
+        },
+        src: ['spec/tweets/models.js']
+      }
+     },
     watch: {
       files: ['./server.js', './public/**', './test/**/*.js'],
-      tasks: ['express', 'jasmine_node', 'jshint', 'mocha_casperjs']
+      tasks: ['express', 'mochaTest', 'jshint', 'mocha_casperjs']
     },
     express: {
       options: {},
@@ -48,7 +57,8 @@ module.exports = function(grunt) {
   'grunt-express-server',
   'grunt-jasmine-node',
   'grunt-contrib-jshint',
-  'grunt-contrib-watch'
+  'grunt-contrib-watch',
+  'grunt-mocha-test'
   ].forEach(function(task) {
     grunt.loadNpmTasks(task);
   });

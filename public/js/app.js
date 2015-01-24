@@ -36,10 +36,10 @@ function callback(results, status) {
     alert(status);
     return;
   }
-  for (var i = 0, results; result = results[i]; i++) {
+  for (var i = 0; i < results.length; i++) {
       var marker = new google.maps.Marker({ 
         map: map, 
-        position: result.geometry.location
+        position: results[i].geometry.location
     });
   }
 }

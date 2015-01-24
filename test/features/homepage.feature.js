@@ -27,7 +27,7 @@ describe('Homepage', function() {
       expect('http://maps.googleapis.com/maps/api/js').to.be.loaded;
     });
   });
-
+ 
   it('loads application JavaScript file', function() {
     casper.then(function() {
       expect('/js/app.js').to.be.loaded;
