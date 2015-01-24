@@ -4,8 +4,15 @@ var server = require('http').createServer(app);
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var Tweet = require('./app/tweetrepo.js');
+var database = require('./config/database.js');
 
-mongoose.connect("mongodb://localhost:27017/tweets_development");
+app.set('dburl', database.db[app.settings.env]);
+mongoose.connect(app.get('dburl'));
+
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function() {
+  console.log("Connected to " + app.settings.env + " database");
+});
 
 app.use(express.static(__dirname + '/public'));
 
