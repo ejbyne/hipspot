@@ -9,10 +9,28 @@ mongoose.connect("mongodb://localhost:27017/tweets_development");
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('*', function(request, response) {
+app.get('/', function(request, response) {
   response.sendFile(__dirname + '/public/views/index.html');
-})
+});
+
+app.get('/tweetinfo', function(request, response) {
+  Tweet.find({}, { longitude: 1, latitude: 1, _id: 0 }, function(err, tweets) {
+    if (err)
+      response.send(err);
+    response.json(tweets);
+  });
+});
 
 server.listen(port, function() {
   console.log('Server listening on port ' + port);
 });
+
+// app.get('/tweetinfo', function(request, response) {
+//   var tweetsArray = [];
+//   var stream = Tweet.find().stream();
+//   stream.on('data', function(tweet) {
+//     tweetsArray.push([tweet.longitude, tweet.latitude])
+//   }).on('close', function() {
+//     response.json(tweetsArray);
+//   });
+// });

@@ -3,13 +3,13 @@ var Schema = mongoose.Schema;
 
 var TweetSchema = new Schema({
 
-  tweetId: Number, 
+  _id: String,
   createdAt: Date, 
-  tweetContent: Text, 
+  content: String, 
   longitude: Number, 
   latitude: Number, 
-  userId: Number, 
-  username: Text, 
+  userId: String, 
+  username: String
 
 });
 
