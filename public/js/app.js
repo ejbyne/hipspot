@@ -24,11 +24,26 @@ function initialize(position) {
 }
 
 function performSearch() {
+  var bounds = map.getBounds();
+  placesSearch(bounds);
+  tweetSearch(bounds);
+}
+
+function placesSearch(bounds) {
   var request = {
-    bounds: map.getBounds(),
+    bounds: bounds,
     types: placesTypes 
   };
-  service.radarSearch(request, callback);
+  console.log(bounds);
+  service.radarSearch(request, callback);  
+}
+
+function tweetSearch(bounds) {
+  $.post('/tweetinfo', { neLatitude: bounds.getNorthEast().lat(),
+                         neLongitude: bounds.getNorthEast().lng(),
+                         swLatitude: bounds.getSouthWest().lat(),
+                         swLongitude: bounds.getSouthWest().lng()
+  });
 }
 
 function callback(results, status) {

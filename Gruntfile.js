@@ -32,7 +32,7 @@ module.exports = function(grunt) {
      },
     watch: {
       files: ['./server.js', './public/**', './test/**/*.js'],
-      tasks: ['express', 'mochaTest', 'jshint', 'mocha_casperjs']
+      tasks: ['env:test', 'express', 'mochaTest', 'jshint', 'mocha_casperjs', 'execute']
     },
     express: {
       options: {},
@@ -46,7 +46,17 @@ module.exports = function(grunt) {
       options: {
       },
       files: {
-        src: ['test/**/*.js']
+        src: ['test/features/*.js']
+      }
+    },
+    env: {
+      test: {
+        NODE_ENV: 'test'
+      },
+    },
+    execute: {
+      target: {
+        src: ['./test/apiTests/tweetSearch.js']
       }
     }
   });
@@ -58,7 +68,9 @@ module.exports = function(grunt) {
   'grunt-jasmine-node',
   'grunt-contrib-jshint',
   'grunt-contrib-watch',
-  'grunt-mocha-test'
+  'grunt-mocha-test',
+  'grunt-env',
+  'grunt-execute'
   ].forEach(function(task) {
     grunt.loadNpmTasks(task);
   });

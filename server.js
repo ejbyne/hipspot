@@ -20,7 +20,7 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/public/views/index.html');
 });
 
-app.get('/tweetinfo', function(request, response) {
+app.post('/tweetinfo', function(request, response) {
   Tweet.find({}, { longitude: 1, latitude: 1, _id: 0 }, function(err, tweets) {
     if (err)
       response.send(err);

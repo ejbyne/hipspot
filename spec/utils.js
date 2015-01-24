@@ -27,6 +27,13 @@ beforeEach(function (done) {
 });
 
 afterEach(function (done) {
+  function clearDB() {
+    for (var i in mongoose.connection.collections) {
+      mongoose.connection.collections[i].remove(function() {});
+    }
+    return done();
+  }
+  clearDB();
   mongoose.disconnect();
   return done();
 });
