@@ -1,5 +1,22 @@
 html, body, #map-canvas {
   height: 100%;
   margin: 0px;
-  padding: 0px
+  padding: 0px;
+}
+
+#map-canvas img { 
+    max-width: none !important; 
+    height: auto !important; 
+    background: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.top-bar {
+  background-color: #00aced;
+}
+
+.top-bar a {
+  font-size: 110%;
 }

@@ -5,12 +5,30 @@
     <title>hipSpot</title>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script src="js/mapStyle.js"></script>
     <script src="js/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/foundation.css">
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
   </head>
 
   <body>
+    <div class="sticky">
+      <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="/">hipSpot</a></h1>
+          </li>
+        </ul>
+      </nav>
+    </div>
     <section id="map-canvas"></section>
+    <script src="js/foundation/jquery.js"></script>
+    <script src="js/foundation/foundation.min.js"></script>
+    <script src="js/foundation/foundation.topbar.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
   </body>
 
 </html>

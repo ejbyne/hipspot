@@ -10,7 +10,8 @@ function initialize(position) {
   var mapOptions = {
     zoom: 17,
     center: new google.maps.LatLng(userLatitude, userLongitude),
-    scaleControl: true
+    scaleControl: true,
+    styles: styles
   };
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   service = new google.maps.places.PlacesService(map);
@@ -18,6 +19,7 @@ function initialize(position) {
   var currentPositionMarker = new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
     map: map,
+    icon: new google.maps.MarkerImage('img/man.svg', null, null, null, new google.maps.Size(36, 36))
   });
 
   google.maps.event.addListener(map, 'idle', performSearch);
@@ -54,7 +56,8 @@ function callback(results, status) {
   for (var i = 0; i < results.length; i++) {
       var marker = new google.maps.Marker({ 
         map: map, 
-        position: results[i].geometry.location
+        position: results[i].geometry.location,
+        icon: new google.maps.MarkerImage('img/glass.svg', null, null, null, new google.maps.Size(24,24))
     });
   }
 }
