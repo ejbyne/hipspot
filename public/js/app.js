@@ -1,8 +1,17 @@
 var map;
 var service;
-var placesTypes = ['bar']; 
+var placesTypes = ['bar'];
+
+$(function() {
+  $('.tlt').textillate({ 
+    in: { effect: 'splat', delay: 20 },
+    out: { effect: 'bounceOut', delay: 20 },
+    loop: true,
+  });
+})
 
 function initialize(position) {
+
   var userLatitude = position.coords.latitude;
   var userLongitude = position.coords.longitude;
 
@@ -22,6 +31,7 @@ function initialize(position) {
   });
   $('#map-canvas').show();
   $('.sticky').show();
+  $('.tlt').hide();
 
   google.maps.event.addListener(map, 'idle', performSearch);
 }
