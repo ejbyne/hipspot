@@ -1,7 +1,8 @@
-html, body, #map-canvas {
+html body #map-canvas {
   height: 100%;
   margin: 0px;
   padding: 0px;
+  display: none;
 }
 
 #map-canvas img { 
@@ -19,4 +20,8 @@ html, body, #map-canvas {
 
 .top-bar a {
   font-size: 110%;
+}
+
+.sticky {
+  display: none;
 }

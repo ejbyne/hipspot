@@ -3,7 +3,6 @@ var service;
 var placesTypes = ['bar']; 
 
 function initialize(position) {
-
   var userLatitude = position.coords.latitude;
   var userLongitude = position.coords.longitude;
 
@@ -21,6 +20,8 @@ function initialize(position) {
     map: map,
     icon: new google.maps.MarkerImage('img/man.svg', null, null, null, new google.maps.Size(36, 36))
   });
+  $('#map-canvas').show();
+  $('.sticky').show();
 
   google.maps.event.addListener(map, 'idle', performSearch);
 }
@@ -73,3 +74,5 @@ var options = {
 };
 
 navigator.geolocation.getCurrentPosition(initialize, error, options);
+
+
