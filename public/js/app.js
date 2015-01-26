@@ -2,7 +2,7 @@ var map;
 var service;
 var placesTypes = ['bar'];
 var infoWindow;
-var new_value = 3;
+var chosenTime;
 
 $(function() {
   $('.tlt').textillate({ 
@@ -38,8 +38,11 @@ function initialize(position) {
   $('.range-slider').show();
   $('.tlt').hide();
   $('#logo').hide();
-  // $('slider').foundation('slider', 'set_value', 6);
-  console.log($('.range-slider').attr('data-slider'));
+  $('.button').on('click', function(event) {
+    event.preventDefault();
+    chosenTimeSlot = $(this).data('pick');
+    tweetSearch(map.getBounds(), chosenTimeSlot); 
+  });
 
   google.maps.event.addListener(map, 'idle', performSearch);
 
@@ -48,7 +51,7 @@ function initialize(position) {
 function performSearch() {
   var bounds = map.getBounds();
   placesSearch(bounds);
-  tweetSearch(bounds);
+  tweetSearch(bounds, chosenTime);
 }
 
 function placesSearch(bounds) {
@@ -59,13 +62,14 @@ function placesSearch(bounds) {
   service.radarSearch(request, callback);  
 }
 
-function tweetSearch(bounds) {
-  // var hour = new Date().getHours();
+function tweetSearch(bounds, timeSlot) {
+  var defaultTimeSlot = Math.floor(new Date().getHours()/4) + 1;
+  timeSlot = timeSlot || defaultTimeSlot;  
   $.post('/tweetinfo', { neLatitude: bounds.getNorthEast().lat(),
                          neLongitude: bounds.getNorthEast().lng(),
                          swLatitude: bounds.getSouthWest().lat(),
                          swLongitude: bounds.getSouthWest().lng(),
-                         timeSlot: 4
+                         timeSlot: timeSlot
                        }, function(data) { 
     showTweetData(data);
   });
@@ -121,9 +125,9 @@ function createMarker(place) {
       };
       var openingHours = function() {
         if(result.opening_hours) {
-          var text = '<br>Opening Hours:<br>'
+          var text = '<br>Opening Hours:<br>';
           result.opening_hours.weekday_text.forEach(function(day) {
-            text += day + '<br>'
+            text += day + '<br>';
           });
           return text;
         } else {
@@ -135,8 +139,8 @@ function createMarker(place) {
                     website() +
                     openingHours();
       infoWindow.setContent(details);
-      infoWindow.open(map, marker)
-    })
+      infoWindow.open(map, marker);
+    });
   });
 }
 

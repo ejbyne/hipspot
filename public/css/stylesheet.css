@@ -24,7 +24,7 @@ html body #map-canvas {
 
 footer {
   position: fixed;
-  bottom: 0;
+  bottom: 40px;
   height: 5%;
   width: 100%;
   /*padding-left: 10%;*/
