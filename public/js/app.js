@@ -56,16 +56,18 @@ function placesSearch(bounds) {
 }
 
 function tweetSearch(bounds) {
+  // var hour = new Date().getHours();
   $.post('/tweetinfo', { neLatitude: bounds.getNorthEast().lat(),
                          neLongitude: bounds.getNorthEast().lng(),
                          swLatitude: bounds.getSouthWest().lat(),
-                         swLongitude: bounds.getSouthWest().lng()
+                         swLongitude: bounds.getSouthWest().lng(),
+                         timeSlot: 4
                        }, function(data) { 
-    getTweetData(data);
+    showTweetData(data);
   });
 }
 
-function getTweetData(data) {
+function showTweetData(data) {
   var tweetsArray = [];
   data.forEach(function(tweet){
     tweetsArray.push(new google.maps.LatLng(tweet.latitude, tweet.longitude));

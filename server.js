@@ -25,7 +25,11 @@ app.get('/', function(request, response) {
 });
 
 app.post('/tweetinfo', function(request, response) {
-  Tweet.find({ longitude: { $gt: request.body.swLongitude , $lt: request.body.neLongitude }, latitude: { $gt: request.body.swLatitude , $lt: request.body.neLatitude } }, { longitude: 1, latitude: 1, _id: 0 }, function(err, tweets) {
+  Tweet.find({ longitude: { $gt: request.body.swLongitude , $lt: request.body.neLongitude },
+               latitude:  { $gt: request.body.swLatitude , $lt: request.body.neLatitude },
+               timeSlot:  request.body.timeSlot
+             }, { longitude: 1, latitude: 1, _id: 0 },
+             function(err, tweets) {
     if (err)
       response.send(err);
     response.json(tweets);

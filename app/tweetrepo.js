@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 var TweetSchema = new Schema({
 
   _id: String,
-  createdAt: Date, 
+  createdAt: Date,
+  timeSlot: Number,
   content: String, 
   longitude: Number, 
   latitude: Number, 
