@@ -5,6 +5,7 @@ var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var Tweet = require('./app/tweetrepo.js');
 var database = require('./config/database.js');
+var bodyParser = require('body-parser');
 
 app.set('dburl', database.db[app.settings.env]);
 mongoose.connect(app.get('dburl'));
@@ -14,6 +15,9 @@ mongoose.connection.once('open', function() {
   console.log("Connected to " + app.settings.env + " database");
 });
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(request, response) {
@@ -21,7 +25,7 @@ app.get('/', function(request, response) {
 });
 
 app.post('/tweetinfo', function(request, response) {
-  Tweet.find({}, { longitude: 1, latitude: 1, _id: 0 }, function(err, tweets) {
+  Tweet.find({ longitude: { $gt: request.body.swLongitude , $lt: request.body.neLongitude }, latitude: { $gt: request.body.swLatitude , $lt: request.body.neLatitude } }, { longitude: 1, latitude: 1, _id: 0 }, function(err, tweets) {
     if (err)
       response.send(err);
     response.json(tweets);

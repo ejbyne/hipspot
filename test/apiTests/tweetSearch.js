@@ -19,7 +19,7 @@ if (mongoose.connection.readyState === 0) {
 
 function createTweets(callback) {
   Tweet.create({ _id: '1', longitude: -0.070, latitude: 51.516 });
-  Tweet.create({ _id: '2', longitude: 0.000, latitude: 0.000 });
+  Tweet.create({ _id: '2', longitude: 0.000, latitude: 51.516 });
   callback();
 }
 
