@@ -31,25 +31,33 @@ html body #map-canvas {
 
 .splashScreen {
   background-color: #33CCFF;
+  padding-top: 10%;
   height: 100%;
   width: 100%;
+}
+
+#logo {
+  margin-left: 37.5%;
+  width: 25%;
+  display: block;
 }
 
 .tlt {
   color: white;
   font-family: 'lato', sans-serif;
-  position: absolute;
   left: 0;
-  top: 50%;
-  margin-top: -4vmin;
   width: 100%;
   text-align: center;
-  font-size: 20vmin;
-  padding: 2vmin 0;
-  overflow: hidden;
+  font-size: 10em;
   font-weight: 300;
   display: block;
-  line-height: 1em;
+  /*padding-top: 60%;*/
+  /*position: absolute;*/
+  /*margin-top: -4vmin;*/
+  /*font-size: 20vmin;*/
+  /*padding: 2vmin 0;*/
+  /*overflow: hidden;*/
+  /*line-height: 1em;*/
   /*visibility: hidden;*/
 }
 

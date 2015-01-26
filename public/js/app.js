@@ -35,6 +35,7 @@ function initialize(position) {
   $('#map-canvas').show();
   $('.sticky').show();
   $('.tlt').hide();
+  $('#logo').hide();
 
   google.maps.event.addListener(map, 'idle', performSearch);
 
