@@ -2,7 +2,8 @@ var map;
 var service;
 var placesTypes = ['bar'];
 var infoWindow;
-var chosenTime;
+var chosenTimeSlot;
+var heatmap;
 
 $(function() {
   $('.tlt').textillate({ 
@@ -51,7 +52,7 @@ function initialize(position) {
 function performSearch() {
   var bounds = map.getBounds();
   placesSearch(bounds);
-  tweetSearch(bounds, chosenTime);
+  tweetSearch(bounds, chosenTimeSlot);
 }
 
 function placesSearch(bounds) {
@@ -76,15 +77,17 @@ function tweetSearch(bounds, timeSlot) {
 }
 
 function showTweetData(data) {
+  if (heatmap)
+    heatmap.setMap(null);
   var tweetsArray = [];
   data.forEach(function(tweet){
     tweetsArray.push(new google.maps.LatLng(tweet.latitude, tweet.longitude));
   });
   var pointArray = new google.maps.MVCArray(tweetsArray);
   heatmap = new google.maps.visualization.HeatmapLayer({ data: pointArray });
-  heatmap.set('radius', 16);
+  heatmap.set('radius', 16);
   heatmap.set('opacity', 1);
-  heatmap.setMap(map);
+  heatmap.setMap(map);
 }
 
 function callback(results, status) {
