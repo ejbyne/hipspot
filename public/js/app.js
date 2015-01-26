@@ -8,7 +8,7 @@ $(function() {
     out: { effect: 'bounceOut', delay: 20 },
     loop: true,
   });
-})
+});
 
 function initialize(position) {
 
@@ -47,7 +47,6 @@ function placesSearch(bounds) {
     bounds: bounds,
     types: placesTypes 
   };
-  console.log(bounds);
   service.radarSearch(request, callback);  
 }
 
@@ -57,14 +56,14 @@ function tweetSearch(bounds) {
                          swLatitude: bounds.getSouthWest().lat(),
                          swLongitude: bounds.getSouthWest().lng()
                        }, function(data) { 
-    getTweetData(data) 
+    getTweetData(data);
   });
 }
 
 function getTweetData(data) {
   var tweetsArray = [];
   data.forEach(function(tweet){
-    tweetsArray.push(new google.maps.LatLng(tweet.latitude, tweet.longitude))
+    tweetsArray.push(new google.maps.LatLng(tweet.latitude, tweet.longitude));
   });
   var pointArray = new google.maps.MVCArray(tweetsArray);
   heatmap = new google.maps.visualization.HeatmapLayer({ data: pointArray });
