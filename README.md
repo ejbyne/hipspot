@@ -3,9 +3,7 @@
 Final Project at Makers Academy
 
 [![Code
-Climate](https://codeclimate.com/github/ejbyne/hipspot/badges/gpa.svg)](https://codeclimate.com/github/ejbyne/hipspot)
-
-[![Test
+Climate](https://codeclimate.com/github/ejbyne/hipspot/badges/gpa.svg)](https://codeclimate.com/github/ejbyne/hipspot)[![Test
 Coverage](https://codeclimate.com/github/ejbyne/hipspot/badges/coverage.svg)](https://codeclimate.com/github/ejbyne/hipspot)
 
 
