@@ -18,8 +18,11 @@ html body #map-canvas {
   background-color: #00aced;
 }
 
-.top-bar a {
-  font-size: 110%;
+.top-bar a img {
+  /*font-size: 110%;*/
+  height: 10%;
+  width: 10%;
+  margin-right: 3%;
 }
 
 .sticky {
@@ -162,5 +165,3 @@ html body #map-canvas {
   96.153846% { -webkit-transform: matrix3d(0.99995, 0, 0, 0, 0, 1.00002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.99995, 0, 0, 0, 0, 1.00002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   100% { -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); } 
 }
-
-
