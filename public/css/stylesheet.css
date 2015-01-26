@@ -6,12 +6,35 @@ html body #map-canvas {
 }
 
 #map-canvas img { 
-    max-width: none !important; 
-    height: auto !important; 
-    background: none !important;
-    border: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
+  max-width: none !important; 
+  /*position: fixed;*/
+  /*top: 5%;*/
+  height: auto !important;
+  background: none !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/*#sticky-footer {
+  top: 90%;
+  height: 5%;
+  display: none;
+}*/
+
+footer {
+  position: fixed;
+  bottom: 0;
+  height: 5%;
+  width: 100%;
+  /*padding-left: 10%;*/
+  /*display: none;*/
+  display: block;
+}
+
+.range-slider {
+  /*width: 80%;*/
+  display: none;
 }
 
 .top-bar {

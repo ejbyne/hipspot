@@ -2,6 +2,7 @@ var map;
 var service;
 var placesTypes = ['bar'];
 var infoWindow;
+var new_value = 3;
 
 $(function() {
   $('.tlt').textillate({ 
@@ -34,8 +35,11 @@ function initialize(position) {
 
   $('#map-canvas').show();
   $('.sticky').show();
+  $('.range-slider').show();
   $('.tlt').hide();
   $('#logo').hide();
+  // $('slider').foundation('slider', 'set_value', 6);
+  console.log($('.range-slider').attr('data-slider'));
 
   google.maps.event.addListener(map, 'idle', performSearch);
 
