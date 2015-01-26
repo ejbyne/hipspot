@@ -8,7 +8,7 @@ function initialize(position) {
   var userLongitude = position.coords.longitude;
 
   var mapOptions = {
-    zoom: 17,
+    zoom: 19,
     center: new google.maps.LatLng(userLatitude, userLongitude),
     scaleControl: true
   };
@@ -43,7 +43,22 @@ function tweetSearch(bounds) {
                          neLongitude: bounds.getNorthEast().lng(),
                          swLatitude: bounds.getSouthWest().lat(),
                          swLongitude: bounds.getSouthWest().lng()
+                       }, function(data) { 
+    getTweetData(data) 
   });
+}
+
+function getTweetData(data) {
+  var tweetsArray = [];
+  data.forEach(function(tweet){
+    tweetsArray.push(new google.maps.LatLng(tweet.latitude, tweet.longitude))
+  });
+  var pointArray = new google.maps.MVCArray(tweetsArray);
+  heatmap = new google.maps.visualization.HeatmapLayer({ data: pointArray });
+  heatmap.set('radius', 16);
+  heatmap.set('opacity', 1);
+  // heatmap.set('dissipating', true);
+  heatmap.setMap(map);
 }
 
 function callback(results, status) {
