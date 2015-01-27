@@ -39,6 +39,7 @@ function initialize(position) {
   $('.range-slider').show();
   $('.tlt').hide();
   $('#logo').hide();
+  $('footer').show();
   $('.button').on('click', function(event) {
     event.preventDefault();
     chosenTimeSlot = $(this).data('pick');

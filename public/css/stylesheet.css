@@ -27,9 +27,11 @@ footer {
   bottom: 40px;
   height: 5%;
   width: 100%;
-  /*padding-left: 10%;*/
-  /*display: none;*/
-  display: block;
+  display: none;
+}
+
+.button {
+  background-color: #00aced;
 }
 
 .range-slider {
