@@ -4,7 +4,6 @@ var placesTypes = ['bar'];
 var infoWindow;
 var chosenTimeSlot;
 var heatmap;
-var mgr;
 var markerClusterer;
 var markerArray;
 
@@ -105,7 +104,15 @@ function callback(results, status) {
   }
   markerArray = [];
   createMarkers(results);
-  new MarkerClusterer(map, markerArray);
+  var mkOptions = {maxZoom: 16,
+                   styles: [{
+                            height: 50,
+                            url:'img/glass-1.png',
+                            width: 50,
+                            textSize: 10
+                    }]
+  };
+  new MarkerClusterer(map, markerArray, mkOptions);
 }
 
 function createMarkers(results) {
@@ -160,11 +167,6 @@ function createMarker(place) {
       infoWindow.open(map, marker);
     });
   });
-}
-
-function createMarkerClusters() {
-  mgr.addMarkers(markerArray);
-  mgr.refresh();
 }
 
 function error(err) {
