@@ -18,12 +18,14 @@ html body #map-canvas {
 
 footer {
   position: fixed;
-  bottom: 40px;
+  bottom: 5%;
   width: 100%;
   height: 5%;
+  padding-top: 1%;
+  padding-bottom: 1%;
   display: none;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 .button {
@@ -35,7 +37,6 @@ footer {
 }
 
 .top-bar a img {
-  /*font-size: 110%;*/
   height: 5%;
   width: 5%;
   margin-right: 1%;
