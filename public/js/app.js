@@ -18,7 +18,7 @@ function initialize(position) {
   var userLongitude = position.coords.longitude;
 
   var mapOptions = {
-    zoom: 19,
+    zoom: 17,
     center: new google.maps.LatLng(userLatitude, userLongitude),
     scaleControl: true,
     styles: styles
