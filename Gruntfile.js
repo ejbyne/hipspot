@@ -3,11 +3,11 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     // configure plugins
-    jasmine_node: {
+    jasmine: {
+      src: 'public/js/app.js',
       options: {
-        forceExit: true,
-      },
-      all: ['spec/']
+        specs: 'spec/viewTesting.js'
+      }
     },
     jshint: {
       files: ['Gruntfile.js', 'package.json', 'public/js/*.js'],
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
      },
     watch: {
       files: ['./server.js', './public/**', './test/**/*.js'],
-      tasks: ['env:test', 'express', 'mochaTest', 'jshint', 'mocha_casperjs', 'execute']
+      tasks: ['env:test', 'express', 'mochaTest', 'jshint', 'mocha_casperjs', 'execute', 'jasmine']
     },
     express: {
       options: {},
@@ -68,6 +68,7 @@ module.exports = function(grunt) {
   'grunt-jasmine-node',
   'grunt-contrib-jshint',
   'grunt-contrib-watch',
+  'grunt-contrib-jasmine',
   'grunt-mocha-test',
   'grunt-env',
   'grunt-execute'

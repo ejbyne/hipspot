@@ -26,7 +26,21 @@
           <li class="name">
             <h1><a href="/"><img src="/img/HipsterLogo.svg">hipSpot</a></h1>
           </li>
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
         </ul>
+        <section class="top-bar-section">
+          <!-- Right Nav Section -->
+          <ul class="right">
+            <li class="has-dropdown">
+              <a href="#">Filter places</a>
+              <ul class="dropdown">
+                <li class="active placesFilter" data-filter="bar"><a href="#">Bars</a></li>
+                <li class="active placesFilter" data-filter="restaurant"><a href="#">Restaurants</a></li>
+                <li class="active placesFilter" data-filter="cafe"><a href="#">Cafes</a></li>
+                <li class="active placesFilter" data-filter="night_club"><a href="#">Night clubs</a></li>
+              </ul>
+            </li>
+          </ul>
       </nav>
     </div>
     <section id="map-canvas"></section>
@@ -50,7 +64,7 @@
       <img id="logo" src="/img/HipsterLogo.svg">
       <h1 class="tlt" data-in-effect="rollIn">hipSpot</h1>
     </section>
-    <script src="vendor/jquery.textillate.js"></script> 
+    <script src="vendor/jquery.textillate.js"></script>
     <script src="vendor/bounce.js"></script>
     <link href="css/animate.css" rel="stylesheet">
     <script src="vendor/jquery.lettering.js"></script>
