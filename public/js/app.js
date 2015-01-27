@@ -4,6 +4,9 @@ var placesTypes = ['bar'];
 var infoWindow;
 var chosenTimeSlot;
 var heatmap;
+var currentPositionMarker;
+var userLatitude;
+var userLongitude;
 
 $(function() {
   $('.tlt').textillate({
@@ -14,8 +17,8 @@ $(function() {
 });
 
 function initialize(position) {
-  var userLatitude = position.coords.latitude;
-  var userLongitude = position.coords.longitude;
+  userLatitude = position.coords.latitude;
+  userLongitude = position.coords.longitude;
 
   var mapOptions = {
     zoom: 17,
@@ -31,7 +34,7 @@ function initialize(position) {
   service = new google.maps.places.PlacesService(map);
   infoWindow = new google.maps.InfoWindow();
 
-  var currentPositionMarker = new google.maps.Marker({
+  currentPositionMarker = new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
     map: map,
     icon: new google.maps.MarkerImage('img/man.svg', null, null, null, new google.maps.Size(36, 36))
@@ -164,4 +167,20 @@ var options = {
   maximumAge: 0
 };
 
+function updatePosition(position) {
+  if (currentPositionMarker) {
+    currentPositionMarker = null;
+  }
+
+  userLatitude = position.coords.latitude;
+  userLongitude = position.coords.longitude;
+
+  currentPositionMarker = new google.maps.Marker({
+    position: new google.maps.LatLng(userLatitude, userLongitude),
+    map: map,
+    icon: new google.maps.MarkerImage('img/man.svg', null, null, null, new google.maps.Size(36, 36))
+  });
+}
+
+navigator.geolocation.watchPosition(updatePosition, error, options);
 navigator.geolocation.getCurrentPosition(initialize, error, options);
