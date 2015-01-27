@@ -1,6 +1,5 @@
 var map;
 var service;
-var placesTypes = ['bar'];
 var infoWindow;
 var chosenTimeSlot;
 var chosenPlacesFilter;
@@ -8,6 +7,8 @@ var heatmap;
 var currentPositionMarker;
 var userLatitude;
 var userLongitude;
+var placesImage;
+var placesMarkerArray = [];
 
 $(function() {
   $('.tlt').textillate({
@@ -55,7 +56,14 @@ function initialize(position) {
 
   $('.placesFilter').on('click', function(event) {
     event.preventDefault();
+
+    for (var i = 0; i < placesMarkerArray.length; i++) {
+      placesMarkerArray[i].setMap(null);
+    }
+
+    placesMarkerArray.length = 0;
     chosenPlacesFilter = [$(this).data('filter')];
+    placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
   });
 
@@ -119,13 +127,16 @@ function callback(results, status) {
 
 function createMarker(place) {
   var placeLoc = place.geometry.location;
-  var marker = new google.maps.Marker({
+  var placesMarker = new google.maps.Marker({
     map: map,
     position: placeLoc,
-    icon: new google.maps.MarkerImage('img/glass.svg', null, null, null, new google.maps.Size(24,24))
-  });
+    icon: new google.maps.MarkerImage(placesImage, null, null, null, new google.maps.Size(24,24))
+  }
+  );
 
-  google.maps.event.addListener(marker, 'click', function() {
+  placesMarkerArray.push(placesMarker);
+
+  google.maps.event.addListener(placesMarker, 'click', function() {
     service.getDetails(place, function(result, status) {
       if (status != google.maps.places.PlacesServiceStatus.OK) {
         alert(status);
@@ -159,7 +170,7 @@ function createMarker(place) {
                     website() +
                     openingHours();
       infoWindow.setContent(details);
-      infoWindow.open(map, marker);
+      infoWindow.open(map, placesMarker);
     });
   });
 }
