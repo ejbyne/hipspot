@@ -169,7 +169,7 @@ var options = {
 
 function updatePosition(position) {
   if (currentPositionMarker) {
-    currentPositionMarker = null;
+    currentPositionMarker.setMap(null);
   }
 
   userLatitude = position.coords.latitude;
