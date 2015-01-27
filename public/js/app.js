@@ -9,6 +9,9 @@ var userLatitude;
 var userLongitude;
 var placesImage;
 var placesMarkerArray = [];
+var choice;
+var markerArray;
+var markerClusterer;
 
 $(function() {
   $('.tlt').textillate({
@@ -60,15 +63,14 @@ function initialize(position) {
       placesMarkerArray[i].setMap(null);
     }
     placesMarkerArray.length = 0;
+    choice = $(this).data('filter')
     chosenPlacesFilter = [$(this).data('filter')];
     placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
   });
 
   google.maps.event.addListener(map, 'idle', performSearch);
-
   addSearchBox();
-
 }
 
 function addSearchBox() {
@@ -76,24 +78,20 @@ function addSearchBox() {
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
   // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
   var searchBox = new google.maps.places.SearchBox(
     /** @type {HTMLInputElement} */(input));
-
   // Listen for the event fired when the user selects an item from the
   // pick list. Retrieve the matching places for that item.
   google.maps.event.addListener(searchBox, 'places_changed', function() {
     var places = searchBox.getPlaces();
-
+    var searchMarkers = [];
     if (places.length == 0) {
       return;
     }
-    for (var i = 0, marker; marker = markers[i]; i++) {
-      marker.setMap(null);
+    for (var i = 0, searchMarker; searchMarker = searchMarkers[i]; i++) {
+      searchMarker.setMap(null);
     }
-
     // For each place, get the icon, place name, and location.
-    markers = [];
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0, place; place = places[i]; i++) {
       var image = {
@@ -103,23 +101,19 @@ function addSearchBox() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25)
       };
-
       // Create a marker for each place.
-      var marker = new google.maps.Marker({
+      var searchMarker = new google.maps.Marker({
         map: map,
         icon: image,
         title: place.name,
         position: place.geometry.location
       });
-
-      markers.push(marker);
-
+      searchMarkers.push(searchMarker);
       bounds.extend(place.geometry.location);
     }
-
     map.fitBounds(bounds);
+    map.setZoom(17);
   });
-
   // Bias the SearchBox results towards places that are within the bounds of the
   // current map's viewport.
   google.maps.event.addListener(map, 'bounds_changed', function() {
@@ -128,9 +122,14 @@ function addSearchBox() {
   });
 }
 
+function pageLoadSearch() {
+  var bounds = map.getBounds();
+  tweetSearch(bounds, chosenTimeSlot);
+}
+
 function performSearch() {
   var bounds = map.getBounds();
-  // placesSearch(bounds);
+  placesSearch(bounds);
   tweetSearch(bounds, chosenTimeSlot);
 }
 
@@ -173,10 +172,23 @@ function showTweetData(data) {
 }
 
 function callback(results, status) {
-  if (status != google.maps.places.PlacesServiceStatus.OK) {
-    alert(status);
-    return;
+  createMarkers(results);
+  var placesClusterImage = "img/" + choice + ".png"
+  if (markerClusterer) {
+    markerClusterer.clearMarkers();
   }
+  var mkOptions = {maxZoom: 16,
+                   styles: [{
+                            height: 50,
+                            url: placesClusterImage,
+                            width: 50,
+                            textSize: 10
+                    }]
+  };
+  markerClusterer = new MarkerClusterer(map, placesMarkerArray, mkOptions);
+}
+
+function createMarkers(results) {
   for (var i = 0; i < results.length; i++) {
     createMarker(results[i]);
   }
@@ -187,6 +199,7 @@ function createMarker(place) {
   var placesMarker = new google.maps.Marker({
     map: map,
     position: placeLoc,
+
     icon: new google.maps.MarkerImage(placesImage, null, null, null, new google.maps.Size(24,24))
   }
   );
@@ -195,10 +208,6 @@ function createMarker(place) {
 
   google.maps.event.addListener(placesMarker, 'click', function() {
     service.getDetails(place, function(result, status) {
-      // if (status != google.maps.places.PlacesServiceStatus.OK) {
-      //   alert(status);
-      //   return;
-      // }
       var name = result.name + '<br>';
 
       var address = result.vicinity + ' ' + result.address_components[result.address_components.length-1].long_name + '<br>';
