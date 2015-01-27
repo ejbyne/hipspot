@@ -4,6 +4,9 @@ var placesTypes = ['bar'];
 var infoWindow;
 var chosenTimeSlot;
 var heatmap;
+var mgr;
+var markerClusterer;
+var markerArray;
 
 $(function() {
   $('.tlt').textillate({ 
@@ -30,6 +33,7 @@ function initialize(position) {
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   service = new google.maps.places.PlacesService(map);
   infoWindow = new google.maps.InfoWindow();
+  mgr = new MarkerManager(map);
 
   var currentPositionMarker = new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
@@ -56,7 +60,7 @@ function initialize(position) {
 function performSearch() {
   var bounds = map.getBounds();
   placesSearch(bounds);
-  tweetSearch(bounds, chosenTimeSlot);
+  // tweetSearch(bounds, chosenTimeSlot);
 }
 
 function placesSearch(bounds) {
@@ -99,6 +103,12 @@ function callback(results, status) {
     alert(status);
     return;
   }
+  markerArray = [];
+  createMarkers(results);
+  new MarkerClusterer(map, markerArray);
+}
+
+function createMarkers(results) {
   for (var i = 0; i < results.length; i++) {
     createMarker(results[i]);
   }
@@ -111,6 +121,7 @@ function createMarker(place) {
     position: placeLoc,
     icon: new google.maps.MarkerImage('img/glass.svg', null, null, null, new google.maps.Size(24,24))
   });
+  markerArray.push(marker);
 
   google.maps.event.addListener(marker, 'click', function() {
     service.getDetails(place, function(result, status) {
@@ -149,6 +160,11 @@ function createMarker(place) {
       infoWindow.open(map, marker);
     });
   });
+}
+
+function createMarkerClusters() {
+  mgr.addMarkers(markerArray);
+  mgr.refresh();
 }
 
 function error(err) {
