@@ -6,7 +6,7 @@ var chosenTimeSlot;
 var heatmap;
 
 $(function() {
-  $('.tlt').textillate({ 
+  $('.tlt').textillate({
     in: { effect: 'splat', delay: 20 },
     out: { effect: 'bounceOut', delay: 20 },
     loop: true,
@@ -46,7 +46,7 @@ function initialize(position) {
   $('.button').on('click', function(event) {
     event.preventDefault();
     chosenTimeSlot = $(this).data('pick');
-    tweetSearch(map.getBounds(), chosenTimeSlot); 
+    tweetSearch(map.getBounds(), chosenTimeSlot);
   });
 
   google.maps.event.addListener(map, 'idle', performSearch);
@@ -62,20 +62,23 @@ function performSearch() {
 function placesSearch(bounds) {
   var request = {
     bounds: bounds,
-    types: placesTypes 
+    types: placesTypes
   };
-  service.radarSearch(request, callback);  
+  service.radarSearch(request, callback);
+}
+
+function defaultTimeSlot() {
+  return Math.floor(new Date().getHours()/4) + 1;
 }
 
 function tweetSearch(bounds, timeSlot) {
-  var defaultTimeSlot = Math.floor(new Date().getHours()/4) + 1;
-  timeSlot = timeSlot || defaultTimeSlot;  
+  timeSlot = timeSlot || defaultTimeSlot();
   $.post('/tweetinfo', { neLatitude: bounds.getNorthEast().lat(),
                          neLongitude: bounds.getNorthEast().lng(),
                          swLatitude: bounds.getSouthWest().lat(),
                          swLongitude: bounds.getSouthWest().lng(),
                          timeSlot: timeSlot
-                       }, function(data) { 
+                       }, function(data) {
     showTweetData(data);
   });
 }
