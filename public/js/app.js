@@ -21,7 +21,10 @@ function initialize(position) {
     zoom: 17,
     center: new google.maps.LatLng(userLatitude, userLongitude),
     scaleControl: true,
-    styles: styles
+    styles: styles,
+    zoomControlOptions: {
+        position: google.maps.ControlPosition.LEFT_TOP
+    },
   };
 
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
