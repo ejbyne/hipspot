@@ -56,11 +56,9 @@ function initialize(position) {
 
   $('.placesFilter').on('click', function(event) {
     event.preventDefault();
-
     for (var i = 0; i < placesMarkerArray.length; i++) {
       placesMarkerArray[i].setMap(null);
     }
-
     placesMarkerArray.length = 0;
     chosenPlacesFilter = [$(this).data('filter')];
     placesImage = "img/" + $(this).data('filter') + ".svg";
@@ -73,7 +71,7 @@ function initialize(position) {
 
 function performSearch() {
   var bounds = map.getBounds();
-  placesSearch(bounds);
+  // placesSearch(bounds);
   tweetSearch(bounds, chosenTimeSlot);
 }
 
