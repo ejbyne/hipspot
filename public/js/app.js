@@ -3,6 +3,7 @@ var service;
 var placesTypes = ['bar'];
 var infoWindow;
 var chosenTimeSlot;
+var chosenPlacesFilter;
 var heatmap;
 var currentPositionMarker;
 var userLatitude;
@@ -52,6 +53,12 @@ function initialize(position) {
     tweetSearch(map.getBounds(), chosenTimeSlot);
   });
 
+  $('.placesFilter').on('click', function(event) {
+    event.preventDefault();
+    chosenPlacesFilter = [$(this).data('filter')];
+    placesSearch(map.getBounds());
+  });
+
   google.maps.event.addListener(map, 'idle', performSearch);
 
 }
@@ -65,7 +72,7 @@ function performSearch() {
 function placesSearch(bounds) {
   var request = {
     bounds: bounds,
-    types: placesTypes
+    types: chosenPlacesFilter
   };
   service.radarSearch(request, callback);
 }
