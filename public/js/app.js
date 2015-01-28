@@ -69,13 +69,13 @@ function initialize(position) {
     //   placesMarkerArray[i].setMap(null);
     // }
     // placesMarkerArray.length = 0;
-    choice = $(this).data('filter')
+    choice = $(this).data('filter');
     chosenPlacesFilter = [$(this).data('filter')];
     placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
   });
   google.maps.event.addListener(map, 'idle', function() {
-    performSearch()
+    performSearch();
   });
   addSearchBox();
 }
@@ -92,15 +92,15 @@ function addSearchBox() {
   google.maps.event.addListener(searchBox, 'places_changed', function() {
     var places = searchBox.getPlaces();
     var searchMarkers = [];
-    if (places.length == 0) {
+    if (places.length === 0) {
       return;
     }
-    for (var i = 0, searchMarker; searchMarker = searchMarkers[i]; i++) {
+    for (var i = 0; i < searchMarkers.length; i++) {
       searchMarker.setMap(null);
     }
     // For each place, get the icon, place name, and location.
     var bounds = new google.maps.LatLngBounds();
-    for (var i = 0, place; place = places[i]; i++) {
+    for (var j = 0; j < places.length; j++) {
       var image = {
         url: place.icon,
         size: new google.maps.Size(71, 71),
@@ -182,7 +182,7 @@ function showTweetData(data) {
 function callback(results, status) {
   placesArray = results;
   createMarkers(results, findHipSpots);
-  var placesClusterImage = "img/" + choice + ".png"
+  var placesClusterImage = "img/" + choice + ".png";
   if (markerClusterer) {
     markerClusterer.clearMarkers();
   }
