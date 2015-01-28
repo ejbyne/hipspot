@@ -49,18 +49,15 @@ function initialize(position) {
 
   $('#map-canvas').show();
   $('.sticky').show();
-  $('.range-slider').show();
-  $('.tlt').hide();
-  $('#logo').hide();
   $('footer').show();
   $('.splashScreen').hide();
   $('.button-group').find("[data-pick='" + defaultTimeSlot() + "']").css("background-color", "#007095");
   $('.button').on('click', function(event) {
     event.preventDefault();
+    chosenTimeSlot = $(this).data('pick');
     $(this).parent().siblings().find('a').css("background-color", "#00aced");
     $(this).css("background-color", "#007095");
-    chosenTimeSlot = $(this).data('pick');
-    tweetSearch(map.getBounds(), chosenTimeSlot);
+    performSearch(map.getBounds(), $(this).data('pick'));
   });
 
   $('.placesFilter').on('click', function(event) {
@@ -74,8 +71,9 @@ function initialize(position) {
     placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
   });
+
   google.maps.event.addListener(map, 'idle', function() {
-    performSearch();
+    performSearch(map.getBounds(), chosenTimeSlot);
   });
   addSearchBox();
 }
@@ -129,10 +127,9 @@ function addSearchBox() {
   });
 }
 
-function performSearch() {
-  var bounds = map.getBounds();
+function performSearch(bounds, timeslot) {
   placesSearch(bounds);
-  tweetSearch(bounds, chosenTimeSlot);
+  tweetSearch(bounds, timeslot);
 }
 
 function placesSearch(bounds) {
@@ -161,7 +158,6 @@ function tweetSearch(bounds, timeSlot) {
                        }, function(data) {
     showTweetData(data);
     tweetData = data;
-    findHipSpots();
   });
 }
 
