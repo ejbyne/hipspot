@@ -39,7 +39,7 @@ function initialize(position) {
 
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   service = new google.maps.places.PlacesService(map);
-  infoWindow = new google.maps.InfoWindow();
+  infoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
 
   currentPositionMarker = new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
