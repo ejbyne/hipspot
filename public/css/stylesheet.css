@@ -29,6 +29,29 @@ footer {
 }
 
 .button {
+  padding: 5%;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button) {
+background:  #00aced;
+}
+
+.top-bar .divider {
+  background: #007095;
+}
+
+.top-bar-section ul li:hover:not(.has-form) > a {
+background-color: #007095;
+background: #007095;
+}
+
+.top-bar-section li.active:not(.has-form) a:not(.button) {
+  background: #00aced;
+}
+
+.button {
   background-color: #00aced;
 }
 
