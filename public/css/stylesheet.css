@@ -37,13 +37,16 @@ footer {
 }
 
 .top-bar a img {
-  height: 5%;
-  width: 5%;
+  height: 30px;
   margin-right: 1%;
 }
 
 .sticky {
   display: none;
+}
+
+#pac-input {
+  min-width: 370px;
 }
 
 .splashScreen {
