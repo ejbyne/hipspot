@@ -182,7 +182,7 @@ function showTweetData(data) {
 
 function callback(results, status) {
   placesArray = results;
-  createMarkers(results);
+  createMarkers(results, findHipSpots);
   var placesClusterImage = "img/" + choice + ".png"
   if (markerClusterer) {
     markerClusterer.clearMarkers();
@@ -217,18 +217,17 @@ function findHipSpots() {
 
 function changeMarkerIcon(place) {
   for (var i = 0; i < placesMarkerArray.length; i++) {
-    placesMarkerArray[i].setIcon(new google.maps.MarkerImage(placesImage, null, null, null, new google.maps.Size(24,24)));
     if (placesMarkerArray[i].placeId === place.place_id) {
       placesMarkerArray[i].setIcon(new google.maps.MarkerImage('img/star.svg', null, null, null, new google.maps.Size(36,36)));
     }
   }
 }
 
-function createMarkers(results) {
+function createMarkers(results, callback) {
   for (var i = 0; i < results.length; i++) {
     createMarker(results[i]);
   }
-  findHipSpots();
+  callback();
 }
 
 function createMarker(place) {
