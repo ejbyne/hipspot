@@ -12,6 +12,8 @@ var placesMarkerArray = [];
 var choice;
 var markerArray;
 var markerClusterer;
+var placesArray = [];
+var tweetData;
 
 $(function() {
   $('.tlt').textillate({
@@ -63,17 +65,18 @@ function initialize(position) {
 
   $('.placesFilter').on('click', function(event) {
     event.preventDefault();
-    for (var i = 0; i < placesMarkerArray.length; i++) {
-      placesMarkerArray[i].setMap(null);
-    }
-    placesMarkerArray.length = 0;
+    // for (var i = 0; i < placesMarkerArray.length; i++) {
+    //   placesMarkerArray[i].setMap(null);
+    // }
+    // placesMarkerArray.length = 0;
     choice = $(this).data('filter')
     chosenPlacesFilter = [$(this).data('filter')];
     placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
   });
-
-  google.maps.event.addListener(map, 'idle', performSearch);
+  google.maps.event.addListener(map, 'idle', function() {
+    performSearch()
+  });
   addSearchBox();
 }
 
@@ -133,6 +136,10 @@ function performSearch() {
 }
 
 function placesSearch(bounds) {
+  for (var i = 0; i < placesMarkerArray.length; i++) {
+    placesMarkerArray[i].setMap(null);
+  }
+  placesMarkerArray = [];
   var request = {
     bounds: bounds,
     types: chosenPlacesFilter
@@ -153,6 +160,8 @@ function tweetSearch(bounds, timeSlot) {
                          timeSlot: timeSlot
                        }, function(data) {
     showTweetData(data);
+    tweetData = data;
+    findHipSpots();
   });
 }
 
@@ -171,7 +180,8 @@ function showTweetData(data) {
 }
 
 function callback(results, status) {
-  createMarkers(results);
+  placesArray = results;
+  createMarkers(results, findHipSpots);
   var placesClusterImage = "img/" + choice + ".png"
   if (markerClusterer) {
     markerClusterer.clearMarkers();
@@ -187,15 +197,42 @@ function callback(results, status) {
   markerClusterer = new MarkerClusterer(map, placesMarkerArray, mkOptions);
 }
 
-function createMarkers(results) {
+function findHipSpots() {
+  var hipSpots = {};
+  for (var i = 0; i < placesArray.length; i++) {
+    for (var j = 0; j < tweetData.length; j++) {
+      if (Math.abs(placesArray[i].geometry.location.lat() - tweetData[j].latitude) < 0.0001 &&
+          Math.abs(placesArray[i].geometry.location.lng() - tweetData[j].longitude) < 0.0001) {
+        if (hipSpots[placesArray[i].place_id]) {
+          hipSpots[placesArray[i].place_id] = hipSpots[placesArray[i].place_id] += 1;
+        } else {
+          hipSpots[placesArray[i].place_id] = 1;
+        }
+        changeMarkerIcon(placesArray[i]);
+      }
+    }
+  }
+}
+
+function changeMarkerIcon(place) {
+  for (var i = 0; i < placesMarkerArray.length; i++) {
+    if (placesMarkerArray[i].placeId === place.place_id) {
+      placesMarkerArray[i].setIcon(new google.maps.MarkerImage('img/star.svg', null, null, null, new google.maps.Size(36,36)));
+    }
+  }
+}
+
+function createMarkers(results, callback) {
   for (var i = 0; i < results.length; i++) {
     createMarker(results[i]);
   }
+  callback();
 }
 
 function createMarker(place) {
   var placeLoc = place.geometry.location;
   var placesMarker = new google.maps.Marker({
+    placeId: place.place_id,
     map: map,
     position: placeLoc,
 
