@@ -49,15 +49,18 @@ function initialize(position) {
 
   $('#map-canvas').show();
   $('.sticky').show();
+  $('.range-slider').show();
+  $('.tlt').hide();
+  $('#logo').hide();
   $('footer').show();
   $('.splashScreen').hide();
   $('.button-group').find("[data-pick='" + defaultTimeSlot() + "']").css("background-color", "#007095");
   $('.button').on('click', function(event) {
     event.preventDefault();
-    chosenTimeSlot = $(this).data('pick');
     $(this).parent().siblings().find('a').css("background-color", "#00aced");
     $(this).css("background-color", "#007095");
-    performSearch(map.getBounds(), $(this).data('pick'));
+    chosenTimeSlot = $(this).data('pick');
+    tweetSearch(map.getBounds(), chosenTimeSlot);
   });
 
   $('.placesFilter').on('click', function(event) {
@@ -71,9 +74,8 @@ function initialize(position) {
     placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
   });
-
   google.maps.event.addListener(map, 'idle', function() {
-    performSearch(map.getBounds(), chosenTimeSlot);
+    performSearch();
   });
   addSearchBox();
 }
@@ -127,9 +129,10 @@ function addSearchBox() {
   });
 }
 
-function performSearch(bounds, timeslot) {
+function performSearch() {
+  var bounds = map.getBounds();
   placesSearch(bounds);
-  tweetSearch(bounds, timeslot);
+  tweetSearch(bounds, chosenTimeSlot);
 }
 
 function placesSearch(bounds) {
@@ -158,6 +161,7 @@ function tweetSearch(bounds, timeSlot) {
                        }, function(data) {
     showTweetData(data);
     tweetData = data;
+    findHipSpots();
   });
 }
 
@@ -196,6 +200,7 @@ function callback(results, status) {
 function findHipSpots() {
   var hipSpots = {};
   for (var i = 0; i < placesArray.length; i++) {
+    placesMarkerArray[i].setIcon(new google.maps.MarkerImage(placesImage, null, null, null, new google.maps.Size(24,24)));
     for (var j = 0; j < tweetData.length; j++) {
       if (Math.abs(placesArray[i].geometry.location.lat() - tweetData[j].latitude) < 0.0001 &&
           Math.abs(placesArray[i].geometry.location.lng() - tweetData[j].longitude) < 0.0001) {
