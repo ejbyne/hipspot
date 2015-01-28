@@ -182,7 +182,7 @@ function showTweetData(data) {
 function callback(results, status) {
   placesArray = results;
   createMarkers(results, findHipSpots);
-  var placesClusterImage = "img/" + choice + ".png";
+  var placesClusterImage = "img/" + choice + "-icon.svg";
   if (markerClusterer) {
     markerClusterer.clearMarkers();
   }
