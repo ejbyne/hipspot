@@ -180,9 +180,8 @@ function showTweetData(data) {
 }
 
 function callback(results, status) {
-  placesArray = results;
-  createMarkers(results, findHipSpots);
-  var placesClusterImage = "img/" + choice + ".png";
+  createMarkers(results);
+  var placesClusterImage = "img/" + choice + "-icon.svg"
   if (markerClusterer) {
     markerClusterer.clearMarkers();
   }
