@@ -2,7 +2,7 @@ var map;
 var service;
 var infoWindow;
 var chosenTimeSlot;
-var chosenPlacesFilter;
+var chosenPlacesFilter = [''];
 var heatmap;
 var currentPositionMarker;
 var userLatitude;
@@ -52,8 +52,11 @@ function initialize(position) {
   $('#logo').hide();
   $('footer').show();
   $('.splashScreen').hide();
+  $('.button-group').find("[data-pick='" + defaultTimeSlot() + "']").css("background-color", "#007095");
   $('.button').on('click', function(event) {
     event.preventDefault();
+    $(this).parent().siblings().find('a').css("background-color", "#00aced");
+    $(this).css("background-color", "#007095");
     chosenTimeSlot = $(this).data('pick');
     tweetSearch(map.getBounds(), chosenTimeSlot);
   });
@@ -121,11 +124,6 @@ function addSearchBox() {
     var bounds = map.getBounds();
     searchBox.setBounds(bounds);
   });
-}
-
-function pageLoadSearch() {
-  var bounds = map.getBounds();
-  tweetSearch(bounds, chosenTimeSlot);
 }
 
 function performSearch() {
