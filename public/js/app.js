@@ -172,7 +172,7 @@ function showTweetData(data) {
 
 function callback(results, status) {
   createMarkers(results);
-  var placesClusterImage = "img/" + choice + ".png"
+  var placesClusterImage = "img/" + choice + "-icon.svg"
   if (markerClusterer) {
     markerClusterer.clearMarkers();
   }
