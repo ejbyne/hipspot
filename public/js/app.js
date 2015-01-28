@@ -12,6 +12,8 @@ var placesMarkerArray = [];
 var choice;
 var markerArray;
 var markerClusterer;
+var placesArray = [];
+var tweetData;
 
 $(function() {
   $('.tlt').textillate({
@@ -63,17 +65,18 @@ function initialize(position) {
 
   $('.placesFilter').on('click', function(event) {
     event.preventDefault();
-    for (var i = 0; i < placesMarkerArray.length; i++) {
-      placesMarkerArray[i].setMap(null);
-    }
-    placesMarkerArray.length = 0;
-    choice = $(this).data('filter')
+    // for (var i = 0; i < placesMarkerArray.length; i++) {
+    //   placesMarkerArray[i].setMap(null);
+    // }
+    // placesMarkerArray.length = 0;
+    choice = $(this).data('filter');
     chosenPlacesFilter = [$(this).data('filter')];
     placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
   });
-
-  google.maps.event.addListener(map, 'idle', performSearch);
+  google.maps.event.addListener(map, 'idle', function() {
+    performSearch();
+  });
   addSearchBox();
 }
 
@@ -89,17 +92,17 @@ function addSearchBox() {
   google.maps.event.addListener(searchBox, 'places_changed', function() {
     var places = searchBox.getPlaces();
     var searchMarkers = [];
-    if (places.length == 0) {
+    if (places.length === 0) {
       return;
     }
-    for (var i = 0, searchMarker; searchMarker = searchMarkers[i]; i++) {
+    for (var i = 0; i < searchMarkers.length; i++) {
       searchMarker.setMap(null);
     }
     // For each place, get the icon, place name, and location.
     var bounds = new google.maps.LatLngBounds();
-    for (var i = 0, place; place = places[i]; i++) {
+    for (var j = 0; j < places.length; j++) {
       var image = {
-        url: place.icon,
+        url: places[j].icon,
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
@@ -109,11 +112,11 @@ function addSearchBox() {
       var searchMarker = new google.maps.Marker({
         map: map,
         icon: image,
-        title: place.name,
-        position: place.geometry.location
+        title: places[j].name,
+        position: places[j].geometry.location
       });
       searchMarkers.push(searchMarker);
-      bounds.extend(place.geometry.location);
+      bounds.extend(places[j].geometry.location);
     }
     map.fitBounds(bounds);
     map.setZoom(17);
@@ -133,6 +136,10 @@ function performSearch() {
 }
 
 function placesSearch(bounds) {
+  for (var i = 0; i < placesMarkerArray.length; i++) {
+    placesMarkerArray[i].setMap(null);
+  }
+  placesMarkerArray = [];
   var request = {
     bounds: bounds,
     types: chosenPlacesFilter
@@ -153,6 +160,8 @@ function tweetSearch(bounds, timeSlot) {
                          timeSlot: timeSlot
                        }, function(data) {
     showTweetData(data);
+    tweetData = data;
+    findHipSpots();
   });
 }
 
@@ -187,15 +196,44 @@ function callback(results, status) {
   markerClusterer = new MarkerClusterer(map, placesMarkerArray, mkOptions);
 }
 
-function createMarkers(results) {
+function findHipSpots() {
+  var hipSpots = {};
+  for (var i = 0; i < placesArray.length; i++) {
+    placesMarkerArray[i].setIcon(new google.maps.MarkerImage(placesImage, null, null, null, new google.maps.Size(24,24)));
+    for (var j = 0; j < tweetData.length; j++) {
+      if (Math.abs(placesArray[i].geometry.location.lat() - tweetData[j].latitude) < 0.0001 &&
+          Math.abs(placesArray[i].geometry.location.lng() - tweetData[j].longitude) < 0.0001) {
+        if (hipSpots[placesArray[i].place_id]) {
+          hipSpots[placesArray[i].place_id] = hipSpots[placesArray[i].place_id] += 1;
+        } else {
+          hipSpots[placesArray[i].place_id] = 1;
+        }
+        if (hipSpots[placesArray[i].place_id] > 3)
+          changeMarkerIcon(placesArray[i]);
+      }
+    }
+  }
+}
+
+function changeMarkerIcon(place) {
+  for (var i = 0; i < placesMarkerArray.length; i++) {
+    if (placesMarkerArray[i].placeId === place.place_id) {
+      placesMarkerArray[i].setIcon(new google.maps.MarkerImage('img/star.svg', null, null, null, new google.maps.Size(36,36)));
+    }
+  }
+}
+
+function createMarkers(results, callback) {
   for (var i = 0; i < results.length; i++) {
     createMarker(results[i]);
   }
+  callback();
 }
 
 function createMarker(place) {
   var placeLoc = place.geometry.location;
   var placesMarker = new google.maps.Marker({
+    placeId: place.place_id,
     map: map,
     position: placeLoc,
 
@@ -245,7 +283,7 @@ function error(err) {
 }
 
 var options = {
-  enableHighAccuracy: true,
+  enableHighAccuracy: false,
   timeout: 5000,
   maximumAge: 0
 };
