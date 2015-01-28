@@ -102,7 +102,7 @@ function addSearchBox() {
     var bounds = new google.maps.LatLngBounds();
     for (var j = 0; j < places.length; j++) {
       var image = {
-        url: place.icon,
+        url: places[j].icon,
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
@@ -112,11 +112,11 @@ function addSearchBox() {
       var searchMarker = new google.maps.Marker({
         map: map,
         icon: image,
-        title: place.name,
-        position: place.geometry.location
+        title: places[j].name,
+        position: places[j].geometry.location
       });
       searchMarkers.push(searchMarker);
-      bounds.extend(place.geometry.location);
+      bounds.extend(places[j].geometry.location);
     }
     map.fitBounds(bounds);
     map.setZoom(17);
@@ -208,7 +208,8 @@ function findHipSpots() {
         } else {
           hipSpots[placesArray[i].place_id] = 1;
         }
-        changeMarkerIcon(placesArray[i]);
+        if (hipSpots[placesArray[i].place_id] > 3)
+          changeMarkerIcon(placesArray[i]);
       }
     }
   }
@@ -282,7 +283,7 @@ function error(err) {
 }
 
 var options = {
-  enableHighAccuracy: true,
+  enableHighAccuracy: false,
   timeout: 5000,
   maximumAge: 0
 };
