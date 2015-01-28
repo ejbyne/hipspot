@@ -43,7 +43,7 @@ We started with a concept around a person looking for a place to go out. We
 wanted to produce something that could let that person know about popular
 places near them. Our story board looked like this:
 
-![alt text](images/userstory.png
+![alt text](images/userstory.jpg
 "User Story Board")
 
 During our pivot sequence we discovered that combining the google places API
