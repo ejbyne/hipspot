@@ -14,3 +14,15 @@
   width: 25%;
   display: block;
 }
+
+.top-bar .has-form {
+  background-color: #00aced;
+}
+
+.top-bar input {
+  width: 100%;
+}
+
+.top-bar .top-bar-section {
+  width: 100%;
+}

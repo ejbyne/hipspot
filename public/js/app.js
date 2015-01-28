@@ -51,6 +51,7 @@ function initialize(position) {
   $('.tlt').hide();
   $('#logo').hide();
   $('footer').show();
+  $('.splashScreen').hide();
   $('.button').on('click', function(event) {
     event.preventDefault();
     chosenTimeSlot = $(this).data('pick');
