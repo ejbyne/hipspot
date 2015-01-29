@@ -33,7 +33,7 @@ var addSearchBox = function() {
       bounds.extend(places[j].geometry.location);
     }
     map.fitBounds(bounds);
-    map.setZoom(17);
+    map.setZoom(zoomSize);
   });
 
   google.maps.event.addListener(map, 'bounds_changed', function() {
@@ -41,4 +41,3 @@ var addSearchBox = function() {
     searchBox.setBounds(bounds);
   });
 };
-
