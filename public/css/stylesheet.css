@@ -7,8 +7,6 @@ html body #map-canvas {
 
 #map-canvas img {
   max-width: none !important;
-  /*position: fixed;*/
-  /*top: 5%;*/
   height: auto !important;
   background: none !important;
   border: 0 !important;
@@ -39,24 +37,37 @@ html body #map-canvas {
 
 footer {
   position: fixed;
-  bottom: 5%;
+  bottom: 5px;
   width: 100%;
-  height: 5%;
-  padding-top: 1%;
-  padding-bottom: 1%;
+  height: 10%;
+  padding: 1%;
   display: none;
-  padding-left: 1%;
-  padding-right: 1%;
 }
 
 .button {
+  position:relative;
   padding: 5%;
-  margin-bottom: 0;
+  bottom: 5px;
   text-align: center;
 }
 
+#location-text {
+  display: none;
+}
+
+#legend {
+  position:absolute;
+  width: 49%;
+  bottom: 100%;
+  display: none;
+}
+
+.button-group {
+  margin-bottom: 5px;
+}
+
 .top-bar-section li:not(.has-form) a:not(.button) {
-background:  #00aced;
+  background:  #00aced;
 }
 
 .top-bar .divider {
@@ -64,8 +75,8 @@ background:  #00aced;
 }
 
 .top-bar-section ul li:hover:not(.has-form) > a {
-background-color: #007095;
-background: #007095;
+  background-color: #007095;
+  background: #007095;
 }
 
 .top-bar-section li.active:not(.has-form) a:not(.button) {
