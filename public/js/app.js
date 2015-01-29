@@ -12,12 +12,15 @@ var placesMarkerArray = [];
 var markerClusterer;
 var placesArray = [];
 var tweetData = [];
+var zoomSize = 17;
+var hipSpots;
+var currentPositionMarkerImage = 'img/location.svg';
 
 var initialize = function(position) {
   defineUserPosition(position);
 
   var mapOptions = {
-    zoom: 17,
+    zoom: zoomSize,
     center: new google.maps.LatLng(userLatitude, userLongitude),
     scaleControl: true,
     styles: styles,
@@ -29,16 +32,12 @@ var initialize = function(position) {
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   service = new google.maps.places.PlacesService(map);
   infoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
-
   createUserMarker();
-
   $('#map-canvas').show();
   $('.sticky').show();
   $('footer').show();
   $('.splashScreen').hide();
-
   google.maps.event.addListener(map, 'idle', performSearch);
-
   addSearchBox();
 };
 
@@ -51,7 +50,7 @@ var createUserMarker = function() {
   currentPositionMarker = new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
     map: map,
-    icon: new google.maps.MarkerImage('img/man.svg', null, null, null, new google.maps.Size(36, 36))
+    icon: new google.maps.MarkerImage(currentPositionMarkerImage, null, null, null, new google.maps.Size(36, 36))
   });
 };
 
@@ -66,7 +65,7 @@ var updatePosition = function(position) {
 var performSearch = function() {
   var bounds = map.getBounds();
   placesSearch(bounds);
-  tweetSearch(bounds, chosenTimeSlot);
+  tweetSearch(bounds);
 };
 
 function placesSearch(bounds) {
@@ -211,9 +210,9 @@ function createMarker(place) {
   });
 }
 
-function error(err) {
+var error = function(err) {
   return false;
-}
+};
 
 var options = {
   enableHighAccuracy: false,
