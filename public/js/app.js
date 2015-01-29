@@ -216,7 +216,7 @@ function findHipSpots() {
 function changeMarkerIcon(place) {
   for (var i = 0; i < placesMarkerArray.length; i++) {
     if (placesMarkerArray[i].placeId === place.place_id) {
-      placesMarkerArray[i].setIcon(new google.maps.MarkerImage('img/star.svg', null, null, null, new google.maps.Size(36,36)));
+      placesMarkerArray[i].setIcon(new google.maps.MarkerImage('img/star-'+ chosenPlacesFilter +'.svg', null, null, null, new google.maps.Size(36,36)));
     }
   }
 }
