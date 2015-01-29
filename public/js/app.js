@@ -12,7 +12,7 @@ var placesMarkerArray = [];
 var markerArray;
 var markerClusterer;
 var placesArray = [];
-var tweetData;
+var tweetData = [];
 
 $(function() {
   $('.tlt').textillate({
@@ -268,8 +268,9 @@ function createMarker(place) {
                     address +
                     website() +
                     openingHours();
-      infoWindow.setContent(details);
-      infoWindow.open(map, placesMarker);
+      // infoWindow.setContent(details);
+      // infoWindow.open(map, placesMarker);
+      $('#infoModal').html(details).show();
     });
   });
 }

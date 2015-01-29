@@ -16,6 +16,21 @@ html body #map-canvas {
   padding: 0 !important;
 }
 
+#infoModal {
+  bottom: 10%;
+  background-color: white;
+  width: 400px;
+  height: 300px;
+  right: 1%;
+  border-radius: 10px;
+  border: 2px solid black;
+  position: fixed;
+  padding: 10px;
+  z-index: 101;
+  display: none;
+  overflow: scroll;
+}
+
 footer {
   position: fixed;
   bottom: 5%;
