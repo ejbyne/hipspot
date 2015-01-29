@@ -30,5 +30,8 @@ $(function() {
     placesSearch(map.getBounds());
   });
 
-
+  $('.current-location').on('click', function(event) {
+    var currentLocation = new google.maps.LatLng(userLatitude, userLongitude);
+    map.setCenter(currentLocation);
+  });
 });

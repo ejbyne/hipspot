@@ -203,8 +203,6 @@ function createMarker(place) {
                     address +
                     website() +
                     openingHours();
-      // infoWindow.setContent(details);
-      // infoWindow.open(map, placesMarker);
       $('#infoModal').html(details).show();
     });
   });
