@@ -47,7 +47,9 @@ function createMarker(place) {
 
   google.maps.event.addListener(placesMarker, 'click', function() {
     service.getDetails(place, function(result, status) {
-      var name = result.name + '<br>';
+      var closeModal = '<div id="closeModal">✕</div>';
+
+      var name = '<strong>' + result.name + '</strong><br>';
 
       var address = result.vicinity + ' ' + result.address_components[result.address_components.length-1].long_name + '<br>';
 
@@ -61,7 +63,7 @@ function createMarker(place) {
       };
       var openingHours = function() {
         if(result.opening_hours) {
-          var text = '<br>Opening Hours:<br>';
+          var text = '<br><strong>Opening Hours:</strong><br>';
           result.opening_hours.weekday_text.forEach(function(day) {
             text += day + '<br>';
           });
@@ -70,12 +72,15 @@ function createMarker(place) {
           return '';
         }
       };
-      var details = name +
+      var details = closeModal +
+                    name +
                     address +
                     website() +
                     openingHours();
-      infoWindow.setContent(details);
-      infoWindow.open(map, placesMarker);
+      $('#infoModal').html(details).show();
+      $('#closeModal').on('click', function() {
+        $('#infoModal').hide();
+      });
     });
   });
 }

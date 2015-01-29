@@ -21,3 +21,19 @@
   padding: 10%;
   margin-bottom: 0;
 }
+
+#infoModal {
+  font-size: 0.8em;
+  bottom: 10%;
+  background-color: white;
+  width: 50%;
+  height: 35%;
+  right: 1%;
+  border-radius: 10px;
+  border: 2px solid black;
+  position: fixed;
+  padding: 10px;
+  z-index: 101;
+  display: none;
+  overflow: scroll;
+}
