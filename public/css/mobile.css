@@ -34,3 +34,19 @@ footer {
 #legend {
   width: 98%;
 }
+
+.top-bar.expanded .title-area {
+  background: #00aced;
+}
+
+.top-bar.expanded .toggle-topbar a span::after {
+  box-shadow: 0 0 0 1px #FFFFFF, 0 7px 0 1px #FFFFFF, 0 14px 0 1px #FFFFFF;
+}
+
+.top-bar.expanded .toggle-topbar a {
+  color: #FFFFFF;
+}
+
+#pac-input {
+  min-width: 98%;
+}
