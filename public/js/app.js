@@ -9,22 +9,12 @@ var userLatitude;
 var userLongitude;
 var placesImage;
 var placesMarkerArray = [];
-var markerArray;
 var markerClusterer;
 var placesArray = [];
 var tweetData = [];
 
-$(function() {
-  $('.tlt').textillate({
-    in: { effect: 'splat', delay: 20 },
-    out: { effect: 'bounceOut', delay: 20 },
-    loop: true,
-  });
-});
-
-function initialize(position) {
-  userLatitude = position.coords.latitude;
-  userLongitude = position.coords.longitude;
+var initialize = function(position) {
+  defineUserPosition(position);
 
   var mapOptions = {
     zoom: 17,
@@ -32,7 +22,7 @@ function initialize(position) {
     scaleControl: true,
     styles: styles,
     zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_TOP
+      position: google.maps.ControlPosition.LEFT_TOP
     },
   };
 
@@ -40,98 +30,44 @@ function initialize(position) {
   service = new google.maps.places.PlacesService(map);
   infoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
 
+  createUserMarker();
+
+  $('#map-canvas').show();
+  $('.sticky').show();
+  $('footer').show();
+  $('.splashScreen').hide();
+
+  google.maps.event.addListener(map, 'idle', performSearch);
+
+  addSearchBox();
+};
+
+var defineUserPosition = function (position) {
+  userLatitude = position.coords.latitude;
+  userLongitude = position.coords.longitude;
+};
+
+var createUserMarker = function() {
   currentPositionMarker = new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
     map: map,
     icon: new google.maps.MarkerImage('img/man.svg', null, null, null, new google.maps.Size(36, 36))
   });
+};
 
-  $('#map-canvas').show();
-  $('.sticky').show();
-  $('.range-slider').show();
-  $('.tlt').hide();
-  $('#logo').hide();
-  $('footer').show();
-  $('.splashScreen').hide();
-  $('.button-group').find("[data-pick='" + defaultTimeSlot() + "']").css("background-color", "#007095");
-  $('.button').on('click', function(event) {
-    event.preventDefault();
-    $(this).parent().siblings().find('a').css("background-color", "#00aced");
-    $(this).css("background-color", "#007095");
-    chosenTimeSlot = $(this).data('pick');
-    tweetSearch(map.getBounds(), chosenTimeSlot);
-  });
+var updatePosition = function(position) {
+  if (currentPositionMarker) {
+    currentPositionMarker.setMap(null);
+  }
+  defineUserPosition(position);
+  createUserMarker();
+};
 
-  $('.placesFilter').on('click', function(event) {
-    event.preventDefault();
-    // for (var i = 0; i < placesMarkerArray.length; i++) {
-    //   placesMarkerArray[i].setMap(null);
-    // }
-    // placesMarkerArray.length = 0;
-    chosenPlacesFilter = [$(this).data('filter')];
-    placesImage = "img/" + $(this).data('filter') + ".svg";
-    placesSearch(map.getBounds());
-  });
-  google.maps.event.addListener(map, 'idle', function() {
-    performSearch();
-  });
-  addSearchBox();
-}
-
-function addSearchBox() {
-  // Create the search box and link it to the UI element.
-  var input = /** @type {HTMLInputElement} */(
-      document.getElementById('pac-input'));
-  // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  var searchBox = new google.maps.places.SearchBox(
-    /** @type {HTMLInputElement} */(input));
-  // Listen for the event fired when the user selects an item from the
-  // pick list. Retrieve the matching places for that item.
-  google.maps.event.addListener(searchBox, 'places_changed', function() {
-    var places = searchBox.getPlaces();
-    var searchMarkers = [];
-    if (places.length === 0) {
-      return;
-    }
-    for (var i = 0; i < searchMarkers.length; i++) {
-      searchMarker.setMap(null);
-    }
-    // For each place, get the icon, place name, and location.
-    var bounds = new google.maps.LatLngBounds();
-    for (var j = 0; j < places.length; j++) {
-      var image = {
-        url: places[j].icon,
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
-      };
-      // Create a marker for each place.
-      var searchMarker = new google.maps.Marker({
-        map: map,
-        icon: image,
-        title: places[j].name,
-        position: places[j].geometry.location
-      });
-      searchMarkers.push(searchMarker);
-      bounds.extend(places[j].geometry.location);
-    }
-    map.fitBounds(bounds);
-    map.setZoom(17);
-  });
-  // Bias the SearchBox results towards places that are within the bounds of the
-  // current map's viewport.
-  google.maps.event.addListener(map, 'bounds_changed', function() {
-    var bounds = map.getBounds();
-    searchBox.setBounds(bounds);
-  });
-}
-
-function performSearch() {
+var performSearch = function() {
   var bounds = map.getBounds();
   placesSearch(bounds);
   tweetSearch(bounds, chosenTimeSlot);
-}
+};
 
 function placesSearch(bounds) {
   for (var i = 0; i < placesMarkerArray.length; i++) {
@@ -216,7 +152,7 @@ function findHipSpots() {
 function changeMarkerIcon(place) {
   for (var i = 0; i < placesMarkerArray.length; i++) {
     if (placesMarkerArray[i].placeId === place.place_id) {
-      placesMarkerArray[i].setIcon(new google.maps.MarkerImage('img/star.svg', null, null, null, new google.maps.Size(36,36)));
+      placesMarkerArray[i].setIcon(new google.maps.MarkerImage('img/star-'+ chosenPlacesFilter +'.svg', null, null, null, new google.maps.Size(36,36)));
     }
   }
 }
@@ -284,21 +220,6 @@ var options = {
   timeout: 5000,
   maximumAge: 0
 };
-
-function updatePosition(position) {
-  if (currentPositionMarker) {
-    currentPositionMarker.setMap(null);
-  }
-
-  userLatitude = position.coords.latitude;
-  userLongitude = position.coords.longitude;
-
-  currentPositionMarker = new google.maps.Marker({
-    position: new google.maps.LatLng(userLatitude, userLongitude),
-    map: map,
-    icon: new google.maps.MarkerImage('img/man.svg', null, null, null, new google.maps.Size(36, 36))
-  });
-}
 
 navigator.geolocation.watchPosition(updatePosition, error, options);
 navigator.geolocation.getCurrentPosition(initialize, error, options);
