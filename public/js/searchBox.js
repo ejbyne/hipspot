@@ -34,6 +34,8 @@ var addSearchBox = function() {
     }
     map.fitBounds(bounds);
     map.setZoom(zoomSize);
+    $("#pac-input").attr("placeholder", $("#pac-input").val());
+    $("#pac-input").val('');
   });
 
   google.maps.event.addListener(map, 'bounds_changed', function() {
