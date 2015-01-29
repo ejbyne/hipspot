@@ -26,3 +26,24 @@
 .top-bar .top-bar-section {
   width: 100%;
 }
+
+footer {
+  height: 10%;
+  bottom: 5px;
+}
+
+.button-group {
+  margin-bottom: 5px;
+}
+
+.button {
+  bottom: 5px;
+  padding: 5%;
+}
+
+#legend {
+  position:absolute;
+  width: 500px;
+  bottom: 100%;
+  display: show;
+}
