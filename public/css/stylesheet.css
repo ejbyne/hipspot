@@ -18,14 +18,11 @@ html body #map-canvas {
 
 footer {
   position: fixed;
-  bottom: 5%;
+  bottom: 5px;
   width: 100%;
-  height: 8%;
-  padding-top: 1%;
-  padding-bottom: 1%;
+  height: 10%;
+  padding: 1%;
   display: none;
-  padding-left: 1%;
-  padding-right: 1%;
 }
 
 .button {
@@ -33,6 +30,17 @@ footer {
   padding: 5%;
   bottom: 5px;
   text-align: center;
+}
+
+#legend {
+  position:absolute;
+  width: 500px;
+  bottom: 100%;
+  display: none;
+}
+
+.button-group {
+  margin-bottom: 5px;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button) {

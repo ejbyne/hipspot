@@ -20,4 +20,17 @@
   font-size: 75%;
   padding: 10%;
   margin-bottom: 0;
+  bottom: 0px;
+}
+
+footer {
+  bottom: 1px;
+}
+
+.button-group {
+  margin-bottom: 1px;
+}
+
+#legend {
+  width: 98%;
 }

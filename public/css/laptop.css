@@ -40,10 +40,3 @@ footer {
   bottom: 5px;
   padding: 5%;
 }
-
-#legend {
-  position:absolute;
-  width: 500px;
-  bottom: 100%;
-  display: show;
-}

@@ -16,9 +16,12 @@ $(function() {
     tweetSearch(map.getBounds(), chosenTimeSlot);
   });
 
-  $('#legend').on('click', function() {
-    $(this).fadeOut();
-  });
+  setTimeout(function() {
+    $('#legend').fadeIn();
+    setTimeout(function() {
+      $('#legend').fadeOut();
+    }, 5000);
+  }, 5000);
 
   $('.placesFilter').on('click', function(event) {
     event.preventDefault();
