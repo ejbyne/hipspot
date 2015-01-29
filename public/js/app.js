@@ -9,7 +9,6 @@ var userLatitude;
 var userLongitude;
 var placesImage;
 var placesMarkerArray = [];
-var choice;
 var markerArray;
 var markerClusterer;
 var placesArray = [];
@@ -69,7 +68,6 @@ function initialize(position) {
     //   placesMarkerArray[i].setMap(null);
     // }
     // placesMarkerArray.length = 0;
-    choice = $(this).data('filter');
     chosenPlacesFilter = [$(this).data('filter')];
     placesImage = "img/" + $(this).data('filter') + ".svg";
     placesSearch(map.getBounds());
@@ -182,14 +180,13 @@ function showTweetData(data) {
 function callback(results, status) {
   placesArray = results;
   createMarkers(results, findHipSpots);
-  var placesClusterImage = "img/" + choice + "-icon.svg";
   if (markerClusterer) {
     markerClusterer.clearMarkers();
   }
   var mkOptions = {maxZoom: 16,
                    styles: [{
                             height: 50,
-                            url: placesClusterImage,
+                            url: placesImage,
                             width: 50,
                             textSize: 10
                     }]
@@ -200,7 +197,7 @@ function callback(results, status) {
 function findHipSpots() {
   var hipSpots = {};
   for (var i = 0; i < placesArray.length; i++) {
-    placesMarkerArray[i].setIcon(new google.maps.MarkerImage(placesImage, null, null, null, new google.maps.Size(24,24)));
+    placesMarkerArray[i].setIcon(new google.maps.MarkerImage(placesImage));
     for (var j = 0; j < tweetData.length; j++) {
       if (Math.abs(placesArray[i].geometry.location.lat() - tweetData[j].latitude) < 0.0001 &&
           Math.abs(placesArray[i].geometry.location.lng() - tweetData[j].longitude) < 0.0001) {
@@ -237,10 +234,8 @@ function createMarker(place) {
     placeId: place.place_id,
     map: map,
     position: placeLoc,
-
-    icon: new google.maps.MarkerImage(placesImage, null, null, null, new google.maps.Size(24,24))
-  }
-  );
+    icon: new google.maps.MarkerImage(placesImage)
+  });
 
   placesMarkerArray.push(placesMarker);
 
