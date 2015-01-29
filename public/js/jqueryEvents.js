@@ -31,7 +31,10 @@ $(function() {
   });
 
   $('.current-location').on('click', function(event) {
+    event.preventDefault();
     var currentLocation = new google.maps.LatLng(userLatitude, userLongitude);
     map.setCenter(currentLocation);
+    $("#pac-input").attr("placeholder", "Find location");
+    $("#pac-input").val('');
   });
 });
