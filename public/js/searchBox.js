@@ -34,7 +34,7 @@ var addSearchBox = function() {
     }
     map.fitBounds(bounds);
     map.setZoom(zoomSize);
-    $("#pac-input").attr("placeholder", $("#pac-input").val());
+    $("#pac-input").attr("placeholder", $("#pac-input").val() || "Find location");
     $("#pac-input").val('');
   });
 

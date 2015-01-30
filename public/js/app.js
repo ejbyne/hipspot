@@ -66,6 +66,7 @@ var performSearch = function() {
   var bounds = map.getBounds();
   placesSearch(bounds);
   tweetSearch(bounds);
+  $("#pac-input").val('');
 };
 
 var error = function(err) {
