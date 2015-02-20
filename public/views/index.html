@@ -14,16 +14,16 @@
     <script src="vendor/markerclusterer_packed.js"></script>
     <script src="js/jqueryEvents.js"></script>
     <script src="js/mapStyle.js"></script>
-    <script src="js/placesSearch.js"></script>
-    <script src="js/tweetSearch.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/placesSearch.js"></script>
     <script src="js/searchBox.js"></script>
+    <script src="js/tweetSearch.js"></script>
   </head>
 
   <body>
     <div class="sticky">
       <nav class="top-bar large-12" data-topbar role="navigation">
-        <ul class="title-area large-2 medium-3">
+        <ul class="title-area large-2 medium-2">
           <li class="name">
             <h1><a href="/"><img src="/img/hipster-logo.svg">hipSpot</a></h1>
           </li>
@@ -38,9 +38,9 @@
                 </div>
               </div>
             </li>
-
+            <li class="current-location"><a href="#" id="location-image"><img src="/img/location_nav.svg"></a></li>
+            <li class="current-location"><a href="#" id="location-text">Find current location</a></li>
             <li><a href="#" data-reveal-id="helpModal">Help</a></li>
-
             <li class="has-dropdown">
               <a href="#">Select venue type</a>
               <ul class="dropdown">
@@ -59,18 +59,22 @@
       </nav>
     </div>
     <div id="helpModal" class="reveal-modal" data-reveal>
-      <h2>What am I looking at here?!</h2>
+      <h2>What am I looking at here?</h2>
       <p class="lead">hipSpot! Find hipsters in your area!</p>
-      <p>The heatmap is displaying tweets that occured from the last 7 days
-      which were sent during the timeslot selected at the bottom of the page.</p>
-      <p>Once you have selected a venue type from the dropdown in the top right of
-      the page, the map will also show you those that are nearby.</p>
+      <p>The heatmap is displaying tweets that occured in Greater London during the last 7 days
+      and were sent during the timeslot selected at the bottom of the page.</p>
+      <p>Once you have selected a venue type from the dropdown menu at the top right of
+      the page, the map will also show you those venues that are nearby.</p>
+      <p>Particularly busy venues are marked with a star.</p>
       <p>If you want to find hipSpots outside of your direct location, please use
       the searchbox.<p>
       <a class="close-reveal-modal">&#215;</a>
     </div>
+    <div id="infoModal">
+    </div>
     <section id="map-canvas"></section>
     <footer>
+      <img id="legend" src="img/legend.png"/>
       <ul class="button-group radius even-6">
         <li><a href="#" class="button" data-pick="1">00:00<br>04:00</a></li>
         <li><a href="#" class="button" data-pick="2">04:00<br>08:00</a></li>

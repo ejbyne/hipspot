@@ -16,6 +16,13 @@ $(function() {
     tweetSearch(map.getBounds(), chosenTimeSlot);
   });
 
+  setTimeout(function() {
+    $('#legend').fadeIn();
+    setTimeout(function() {
+      $('#legend').fadeOut();
+    }, 5000);
+  }, 5000);
+
   $('.placesFilter').on('click', function(event) {
     event.preventDefault();
     chosenPlacesFilter = [$(this).data('filter')];
@@ -23,5 +30,11 @@ $(function() {
     placesSearch(map.getBounds());
   });
 
-
+  $('.current-location').on('click', function(event) {
+    event.preventDefault();
+    var currentLocation = new google.maps.LatLng(userLatitude, userLongitude);
+    map.setCenter(currentLocation);
+    $("#pac-input").attr("placeholder", "Find location");
+    $("#pac-input").val('');
+  });
 });

@@ -20,4 +20,57 @@
   font-size: 75%;
   padding: 10%;
   margin-bottom: 0;
+  bottom: 0px;
+}
+
+#infoModal {
+  font-size: 0.8em;
+  bottom: 10%;
+  background-color: white;
+  width: 50%;
+  height: 35%;
+  right: 1%;
+  border-radius: 10px;
+  border: 2px solid black;
+  position: fixed;
+  padding: 10px;
+  z-index: 101;
+  display: none;
+  overflow: scroll;
+}
+
+#location-image {
+  display: none;
+}
+
+#location-text {
+  display: inline-block;
+}
+
+footer {
+  bottom: 1px;
+}
+
+.button-group {
+  margin-bottom: 1px;
+}
+
+#legend {
+  width: 98%;
+}
+
+.top-bar.expanded .title-area {
+  background: #00aced;
+}
+
+.top-bar.expanded .toggle-topbar a span::after {
+  box-shadow: 0 0 0 1px #FFFFFF, 0 7px 0 1px #FFFFFF, 0 14px 0 1px #FFFFFF;
+}
+
+.top-bar.expanded .toggle-topbar a {
+  color: #FFFFFF;
+}
+
+#pac-input {
+  min-width: 98%;
 }
