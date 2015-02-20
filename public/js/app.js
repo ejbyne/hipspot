@@ -1,4 +1,7 @@
-var map = new Map();
+var googleAPI = new GoogleAPI();
+// var placesFinder = new PlacesFinder();
+// var tweetsFinder = new TweetsFinder();
+var map = new Map(googleAPI, placesFinder, tweetsFinder);
 
 var chosenTimeSlot;
 var chosenPlacesFilter = [''];
@@ -78,5 +81,5 @@ var options = {
   maximumAge: 0
 };
 
-navigator.geolocation.watchPosition(map.updatePosition, error, options);
 navigator.geolocation.getCurrentPosition(map.initialize, error, options);
+navigator.geolocation.watchPosition(map.updatePosition, error, options);
