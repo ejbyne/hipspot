@@ -3,20 +3,20 @@ var googleAPI = new GoogleAPI();
 // var tweetsFinder = new TweetsFinder();
 var map = new Map(googleAPI, placesFinder, tweetsFinder);
 
-var chosenTimeSlot;
-var chosenPlacesFilter = [''];
-var heatmap;
-var currentPositionMarker;
-var userLatitude;
-var userLongitude;
-var placesImage;
-var placesMarkerArray = [];
-var markerClusterer;
-var placesArray = [];
-var tweetData = [];
-var zoomSize = 17;
-var hipSpots;
-var currentPositionMarkerImage = 'img/location.svg';
+// var chosenTimeSlot;
+// var chosenPlacesFilter = [''];
+// var heatmap;
+// var currentPositionMarker;
+// var userLatitude;
+// var userLongitude;
+// var placesImage;
+// var placesMarkerArray = [];
+// var markerClusterer;
+// var placesArray = [];
+// var tweetData = [];
+// var zoomSize = 17;
+// var hipSpots;
+// var currentPositionMarkerImage = 'img/location.svg';
 
 // var initialize = function(position) {
 //   defineUserPosition(position);
