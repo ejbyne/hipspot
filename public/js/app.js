@@ -1,7 +1,7 @@
 var googleAPI = new GoogleAPI();
-// var placesFinder = new PlacesFinder();
-// var tweetsFinder = new TweetsFinder();
-var map = new Map(googleAPI, placesFinder, tweetsFinder);
+var placesFinder = new PlacesFinder(googleAPI);
+var tweetsFinder = new TweetsFinder(googleAPI);
+var mapController = new MapController(googleAPI, placesFinder, tweetsFinder);
 
 // var chosenTimeSlot;
 // var chosenPlacesFilter = [''];
@@ -71,6 +71,14 @@ var map = new Map(googleAPI, placesFinder, tweetsFinder);
 //   $("#pac-input").val('');
 // };
 
+var loadMap = function(position) {
+	mapController.initialize(position);
+};
+
+var updatePosition = function(position) {
+	mapController.updatePosition(position);
+};
+
 var error = function(err) {
   return false;
 };
@@ -81,5 +89,5 @@ var options = {
   maximumAge: 0
 };
 
-navigator.geolocation.getCurrentPosition(map.initialize, error, options);
-navigator.geolocation.watchPosition(map.updatePosition, error, options);
+navigator.geolocation.getCurrentPosition(loadMap, error, options);
+navigator.geolocation.watchPosition(updatePosition, error, options);

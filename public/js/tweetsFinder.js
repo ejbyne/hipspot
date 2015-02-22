@@ -7,12 +7,16 @@ TweetsFinder.prototype.defaultTimeSlot = function() {
   return Math.floor(new Date().getHours()/4) + 1;
 };
 
-TweetsFinder.prototype.tweetSearch = function(bounds) {
+TweetsFinder.prototype.tweetsSearch = function() {
+  var _this = this;
   this.chosenTimeSlot = this.chosenTimeSlot || this.defaultTimeSlot();
-  $.post('/tweetinfo', this.googleAPI.getMapCoords(bounds), function(data) {
-    this.showTweetData(data);
-    this.tweetData = data;
-    this.findHipSpots();
+  var mapCoords = this.googleAPI.getMapCoords(this.chosenTimeSlot);
+  $.post('/tweetinfo', mapCoords, function(data) {
+    if (Array.isArray(data)) {
+      _this.showTweetData(data);
+      _this.tweetData = data;
+      _this.findHipSpots();
+    }
   });
 };
 

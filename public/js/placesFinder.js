@@ -1,10 +1,11 @@
 var PlacesFinder = function(googleAPI) {
   this.googleAPI = googleAPI;
   this.placesMarkerArray = [];
+  this.placesArray = [];
   this.chosenPlacesFilter = [''];
 };
 
-PlacesFinder.prototype.search = function(bounds) {
+PlacesFinder.prototype.placesSearch = function() {
   for (var i = 0; i < this.placesMarkerArray.length; i++) {
     this.googleAPI.clearMarker(this.placesMarkerArray[i]);
   }
@@ -24,10 +25,10 @@ PlacesFinder.prototype.createPlacesMarkers = function(searchResults) {
   for (var i = 0; i < searchResults.length; i++) {
     this.createPlacesMarker(searchResults[i]);
   }
-  // findHipSpots();
 }
 
 PlacesFinder.prototype.createPlacesMarker = function(place) {
   var placesMarker = this.googleAPI.createPlacesMarker(place);
+  this.placesArray.push(place);
   this.placesMarkerArray.push(placesMarker);
 };

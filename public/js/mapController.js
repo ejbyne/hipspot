@@ -10,9 +10,8 @@ MapController.prototype.setCurrentPosition = function(position) {
 };
 
 MapController.prototype.performSearch = function() {
-  var bounds = this.googleAPI.getMapBounds();
-  this.placesFinder.placesSearch(bounds);
-  this.tweetsFinder.tweetSearch(bounds, chosenTimeSlot);
+  this.placesFinder.placesSearch();
+  this.tweetsFinder.tweetsSearch();
   $("#pac-input").val('');
 };
 
@@ -27,7 +26,7 @@ MapController.prototype.initialize = function(position) {
   this.setCurrentPosition(position);
   this.googleAPI.createMap(this.userLatitude, this.userLongitude);
   this.googleAPI.addPlacesService();
-  this.googleAPI.addMapListener(this.performSearch);
+  this.googleAPI.addMapListener(this, this.performSearch);
   this.currentPositionMarker = this.googleAPI.createCurrentPositionMarker(
     this.userLatitude, this.userLongitude
   );
@@ -36,7 +35,9 @@ MapController.prototype.initialize = function(position) {
 };
 
 MapController.prototype.updatePosition = function(position) {
-  this.googleAPI.clearMarker(this.currentPositionMarker);
+  if (this.currentPositionMarker) {
+    this.googleAPI.clearMarker(this.currentPositionMarker);
+  }
   this.setCurrentPosition(position);
   this.googleAPI.createCurrentPositionMarker(this.userLatitude, this.userLongitude);
 };

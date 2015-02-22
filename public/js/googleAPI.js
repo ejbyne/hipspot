@@ -1,21 +1,25 @@
-var GoogleAPI = function() {};
+var GoogleAPI = function() {
+};
 
 GoogleAPI.prototype.mapOptions = function(userLatitude, userLongitude) {
-	return {
+	var center = new google.maps.LatLng(userLatitude, userLongitude);
+  var position = google.maps.ControlPosition.LEFT_TOP;
+  return {
     zoom: 17,
-    center: new google.maps.LatLng(userLatitude, userLongitude),
+    center: center,
     scaleControl: true,
     styles: this.STYLES,
     zoomControlOptions: {
-      position: google.maps.ControlPosition.LEFT_TOP
+      position: position
     }
   };
 };
 
 GoogleAPI.prototype.createMap = function(userLatitude, userLongitude) {
-	this.googleMap = new google.maps.Map(
+	var mapOptions = this.mapOptions(userLatitude, userLongitude);
+  this.googleMap = new google.maps.Map(
 		document.getElementById('map-canvas'),
-		this.mapOptions(userLatitude, userLongitude)
+		mapOptions
 	);
 };
 
@@ -23,39 +27,37 @@ GoogleAPI.prototype.addPlacesService = function() {
 	this.placesService = new google.maps.places.PlacesService(this.googleMap);
 };
 
-GoogleAPI.prototype.addMapListener = function(performSearch) {
-	google.maps.event.addListener(this.googleMap, 'idle', performSearch);
+GoogleAPI.prototype.addMapListener = function(mapController, performSearch) {
+	google.maps.event.addListener(this.googleMap, 'idle', performSearch.call(mapController));
 };
 
 GoogleAPI.prototype.getMapBounds = function() {
 	return this.googleMap.getBounds();
 };
 
-GoogleAPI.prototype.getMapCoords = function(bounds) {
-{ neLatitude: bounds.getNorthEast().lat(),
-                         neLongitude: bounds.getNorthEast().lng(),
-                         swLatitude: bounds.getSouthWest().lat(),
-                         swLongitude: bounds.getSouthWest().lng(),
-                         timeSlot: chosenTimeSlot
-                       }
+GoogleAPI.prototype.getMapCoords = function(chosenTimeSlot) {
+  this.getMapBounds(function(bounds) {
+    return { neLatitude: bounds.getNorthEast().lat(),
+             neLongitude: bounds.getNorthEast().lng(),
+             swLatitude: bounds.getSouthWest().lat(),
+             swLongitude: bounds.getSouthWest().lng(),
+             timeSlot: chosenTimeSlot
+           };
+  });
 };
 
 GoogleAPI.prototype.createCurrentPositionMarker = function(userLatitude, userLongitude) {
-  return this.currentPositionMarker = new google.maps.Marker({
+  return new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
     map: this.googleMap,
     icon: new google.maps.MarkerImage('img/location.svg', null, null, null, new google.maps.Size(36, 36))
   });
 };
 
-GoogleAPI.prototype.clearCurrentPositionMarker = function() {
-	this.currentPositionMarker.setMap(null);
-};
-
 GoogleAPI.prototype.createPlacesMarker = function(place) {
 	var placesMarker = new google.maps.Marker({
     placeId: place.place_id,
-    map: map,
+    map: this.googleMap,
     position: place.geometry.location,
     icon: new google.maps.MarkerImage(placesImage)
   });
@@ -101,28 +103,32 @@ GoogleAPI.prototype.clearClusterer = function(clusterer) {
 };
 
 GoogleAPI.prototype.drawHeatMap = function(data) {
-	var tweetsArray = [];
-	data.forEach(function(tweet){
-	  tweetsArray.push(new google.maps.LatLng(tweet.latitude, tweet.longitude));
-	});
-	var pointArray = new google.maps.MVCArray(tweetsArray);
-  var heatMap = new google.maps.visualization.HeatmapLayer({ data: pointArray });
-  heatMap.set('radius', 16);
-  heatMap.set('opacity', 1);
-  heatMap.setMap(this.googleMap);
-  return heatMap;
+  if (data) {
+  	var tweetsArray = [];
+  	data.forEach(function(tweet) {
+  	  tweetsArray.push(new google.maps.LatLng(tweet.latitude, tweet.longitude));
+  	});
+  	var pointArray = new google.maps.MVCArray(tweetsArray);
+    var heatMap = new google.maps.visualization.HeatmapLayer({ data: pointArray });
+    heatMap.set('radius', 16);
+    heatMap.set('opacity', 1);
+    heatMap.setMap(this.googleMap);
+    return heatMap;  
+  }
 };
 
 GoogleAPI.prototype.clearHeatMap = function(heatMap) {
-  heatmap.setMap(null);
+  heatMap.setMap(null);
 };
 
 GoogleAPI.prototype.searchPlaces = function(chosenPlacesFilter) {
-  var request = {
-    bounds: this.getMapBounds(),
-    types: chosenPlacesFilter
-  };
-  this.placesSearch.radarSearch(request);
+  this.getMapBounds(function(bounds) {
+    var request = {
+      bounds: bounds,
+      types: chosenPlacesFilter
+    };
+    this.placesService.radarSearch(request); 
+  });
 };
 
 GoogleAPI.prototype.resetMarkerIcon = function(marker) {
@@ -137,6 +143,7 @@ GoogleAPI.prototype.changeMarkerIcon = function(marker) {
 };
 
 GoogleAPI.prototype.addSearchBox = function() {
+  var _this = this;
   var input =  document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   google.maps.event.addListener(searchBox, 'places_changed', function() {
@@ -158,7 +165,7 @@ GoogleAPI.prototype.addSearchBox = function() {
         scaledSize: new google.maps.Size(25, 25)
       };
       var searchMarker = new google.maps.Marker({
-        map: map,
+        map: this.googleMap,
         icon: image,
         title: places[j].name,
         position: places[j].geometry.location
@@ -166,13 +173,13 @@ GoogleAPI.prototype.addSearchBox = function() {
       searchMarkers.push(searchMarker);
       bounds.extend(places[j].geometry.location);
     }
-    map.fitBounds(bounds);
-    map.setZoom(zoomSize);
+    this.googleMap.fitBounds(bounds);
+    this.googleMap.setZoom(zoomSize);
     $("#pac-input").attr("placeholder", $("#pac-input").val() || "Find location");
     $("#pac-input").val('');
   });
-  google.maps.event.addListener(map, 'bounds_changed', function() {
-    var bounds = map.getBounds();
+  google.maps.event.addListener(this.googleMap, 'bounds_changed', function() {
+    var bounds = _this.googleMap.getBounds();
     searchBox.setBounds(bounds);
   });
 };
@@ -210,36 +217,38 @@ GoogleAPI.prototype.placeOpeningHours = function(result) {
   }
 };
 
-GoogleAPI.prototype.STYLES = [
-  {
-    "featureType": "road",
-    "stylers": [
-      { "color": "#ffffff" },
-      { "visibility": "simplified" }
-    ]
-  },{
-    "featureType": "road",
-    "elementType": "labels.text",
-    "stylers": [
-      { "color": "#0e1310" }
-    ]
-  },{
-    "stylers": [
-      { "visibility": "simplified" },
-      { "lightness": 5 },
-      { "saturation": 38 }
-    ]
-  },{
-    "featureType": "administrative",
-    "elementType": "labels",
-    "stylers": [
-      { "visibility": "simplified" },
-      { "color": "#161615" }
-    ]
-  },{
-    "featureType": "transit.line",
-    "stylers": [
-      { "visibility": "off" }
-    ]
-  }
-];
+GoogleAPI.prototype.STYLES = function() {
+  return [
+    {
+      "featureType": "road",
+      "stylers": [
+        { "color": "#ffffff" },
+        { "visibility": "simplified" }
+      ]
+    },{
+      "featureType": "road",
+      "elementType": "labels.text",
+      "stylers": [
+        { "color": "#0e1310" }
+      ]
+    },{
+      "stylers": [
+        { "visibility": "simplified" },
+        { "lightness": 5 },
+        { "saturation": 38 }
+      ]
+    },{
+      "featureType": "administrative",
+      "elementType": "labels",
+      "stylers": [
+        { "visibility": "simplified" },
+        { "color": "#161615" }
+      ]
+    },{
+      "featureType": "transit.line",
+      "stylers": [
+        { "visibility": "off" }
+      ]
+    }
+  ];
+};
