@@ -1,14 +1,14 @@
-var GoogleAPI = function() {
-};
+var GoogleAPI = function() {};
 
 GoogleAPI.prototype.mapOptions = function(userLatitude, userLongitude) {
 	var center = new google.maps.LatLng(userLatitude, userLongitude);
+  var styles = this.STYLES;
   var position = google.maps.ControlPosition.LEFT_TOP;
   return {
     zoom: 17,
     center: center,
     scaleControl: true,
-    styles: this.STYLES,
+    styles: styles,
     zoomControlOptions: {
       position: position
     }
@@ -27,21 +27,20 @@ GoogleAPI.prototype.addPlacesService = function() {
 	this.placesService = new google.maps.places.PlacesService(this.googleMap);
 };
 
-GoogleAPI.prototype.addMapListener = function(mapController, performSearch) {
-	google.maps.event.addListener(this.googleMap, 'idle', performSearch.call(mapController));
+GoogleAPI.prototype.addMapListener = function(mapController) {
+	google.maps.event.addListener(this.googleMap, 'idle', mapController.performSearch(mapController));
 };
 
 GoogleAPI.prototype.getMapBounds = function() {
 	return this.googleMap.getBounds();
 };
 
-GoogleAPI.prototype.getMapCoords = function(chosenTimeSlot) {
+GoogleAPI.prototype.getMapCoords = function() {
   this.getMapBounds(function(bounds) {
     return { neLatitude: bounds.getNorthEast().lat(),
              neLongitude: bounds.getNorthEast().lng(),
              swLatitude: bounds.getSouthWest().lat(),
-             swLongitude: bounds.getSouthWest().lng(),
-             timeSlot: chosenTimeSlot
+             swLongitude: bounds.getSouthWest().lng()
            };
   });
 };
@@ -50,7 +49,9 @@ GoogleAPI.prototype.createCurrentPositionMarker = function(userLatitude, userLon
   return new google.maps.Marker({
     position: new google.maps.LatLng(userLatitude, userLongitude),
     map: this.googleMap,
-    icon: new google.maps.MarkerImage('img/location.svg', null, null, null, new google.maps.Size(36, 36))
+    icon: new google.maps.MarkerImage(
+      'img/location.svg', null, null, null, new google.maps.Size(36, 36)
+    )
   });
 };
 
@@ -59,20 +60,21 @@ GoogleAPI.prototype.createPlacesMarker = function(place) {
     placeId: place.place_id,
     map: this.googleMap,
     position: place.geometry.location,
-    icon: new google.maps.MarkerImage(placesImage)
+    icon: new google.maps.MarkerImage(this.placesImage)
   });
 	this.addMarkerListener(place, placesMarker);
   return placesMarker;
 };
 
 GoogleAPI.prototype.addMarkerListener = function(place, placesMarker) {
-	google.maps.event.addListener(placesMarker, 'click', function() {
-    this.placesService.getDetails(place, function(result, status) {
-      var details = this.closeModal +
-                    this.placeName(result) +
-                    this.placeAddress(result) +
-                    this.placeWebsite(result) +
-                    this.placeOpeningHours(result);
+	var _this = this;
+  google.maps.event.addListener(placesMarker, 'click', function() {
+    _this.placesService.getDetails(place, function(result, status) {
+      var details = _this.closeModal +
+                    _this.placeName(result) +
+                    _this.placeAddress(result) +
+                    _this.placeWebsite(result) +
+                    _this.placeOpeningHours(result);
       $('#infoModal').html(details).show();
       $('#closeModal').on('click', function() {
         $('#infoModal').hide();
@@ -85,18 +87,18 @@ GoogleAPI.prototype.clearMarker = function(marker) {
 	marker.setMap(null);
 };
 
-GoogleAPI.prototype.createClusterer = function() {
+GoogleAPI.prototype.createClusterer = function(placesMarkerArray) {
 	var mkOptions = {
 		maxZoom: 16,
     styles: [{
               height: 50,
-              url: placesImage,
+              url: this.placesImage,
               width: 50,
               textSize: 10
             }]
   };
 	return new MarkerClusterer(this.googleMap, placesMarkerArray, mkOptions);
-}
+};
 
 GoogleAPI.prototype.clearClusterer = function(clusterer) {
 	clusterer.clearMarkers();
@@ -113,7 +115,7 @@ GoogleAPI.prototype.drawHeatMap = function(data) {
     heatMap.set('radius', 16);
     heatMap.set('opacity', 1);
     heatMap.setMap(this.googleMap);
-    return heatMap;  
+    return heatMap;
   }
 };
 
@@ -121,23 +123,23 @@ GoogleAPI.prototype.clearHeatMap = function(heatMap) {
   heatMap.setMap(null);
 };
 
-GoogleAPI.prototype.searchPlaces = function(chosenPlacesFilter) {
+GoogleAPI.prototype.searchPlaces = function() {
   this.getMapBounds(function(bounds) {
     var request = {
       bounds: bounds,
-      types: chosenPlacesFilter
+      types: this.chosenPlacesFilter
     };
     this.placesService.radarSearch(request); 
   });
 };
 
 GoogleAPI.prototype.resetMarkerIcon = function(marker) {
-	marker.setIcon(new google.maps.MarkerImage(placesImage));
-}
+	marker.setIcon(new google.maps.MarkerImage(this.placesImage));
+};
 
 GoogleAPI.prototype.changeMarkerIcon = function(marker) {
 	marker.setIcon(new google.maps.MarkerImage(
-		'img/star-'+ chosenPlacesFilter + '.svg',
+		'img/star-'+ this.chosenPlacesFilter + '.svg',
 		null, null, null, new google.maps.Size(36,36))
 	);
 };
@@ -165,7 +167,7 @@ GoogleAPI.prototype.addSearchBox = function() {
         scaledSize: new google.maps.Size(25, 25)
       };
       var searchMarker = new google.maps.Marker({
-        map: this.googleMap,
+        map: _this.googleMap,
         icon: image,
         title: places[j].name,
         position: places[j].geometry.location
@@ -173,8 +175,8 @@ GoogleAPI.prototype.addSearchBox = function() {
       searchMarkers.push(searchMarker);
       bounds.extend(places[j].geometry.location);
     }
-    this.googleMap.fitBounds(bounds);
-    this.googleMap.setZoom(zoomSize);
+    _this.googleMap.fitBounds(bounds);
+    _this.googleMap.setZoom(17);
     $("#pac-input").attr("placeholder", $("#pac-input").val() || "Find location");
     $("#pac-input").val('');
   });

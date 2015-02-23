@@ -9,14 +9,16 @@ TweetsFinder.prototype.defaultTimeSlot = function() {
 
 TweetsFinder.prototype.tweetsSearch = function() {
   var _this = this;
-  this.chosenTimeSlot = this.chosenTimeSlot || this.defaultTimeSlot();
-  var mapCoords = this.googleAPI.getMapCoords(this.chosenTimeSlot);
-  $.post('/tweetinfo', mapCoords, function(data) {
-    if (Array.isArray(data)) {
-      _this.showTweetData(data);
-      _this.tweetData = data;
-      _this.findHipSpots();
-    }
+  this.googleAPI.getMapCoords(function(coords) {
+    var searchParams = coords;
+    searchParams.timeSlot = _this.chosenTimeSlot || _this.defaultTimeSlot();
+    $.post('/tweetinfo', searchParams, function(data) {
+      if (Array.isArray(data)) {
+        _this.showTweetData(data);
+        _this.tweetData = data;
+        _this.findHipSpots();
+      }
+    });
   });
 };
 
@@ -28,23 +30,25 @@ TweetsFinder.prototype.showTweetData = function(data) {
 };
 
 TweetsFinder.prototype.findHipSpots = function() {
+  var _this = this;
   this.hipSpots = {};
-  for (var i = 0; i < this.placesFinder.placesMarkerArray.length; i++) {
-    this.googleAPI.resetMarkerIcon(this.placesFinder.placesMarkerArray[i]);
-    for (var j = 0; j < this.tweetData.length; j++) {
-      if (this.isTweetFromPlace(i, j)) {
-        this.recordHipSpot(i);
-        if (this.isPopularPlace(i))
-          this.changeMarkerIcon(placesArray[i]);
+  for (var i = 0; i < _this.placesFinder.placesMarkerArray.length; i++) {
+    _this.googleAPI.resetMarkerIcon(_this.placesFinder.placesMarkerArray[i]);
+    for (var j = 0; j < _this.tweetData.length; j++) {
+      if (_this.isTweetFromPlace(i, j)) {
+        _this.recordHipSpot(i);
+        if (_this.isPopularPlace(i))
+          _this.changeMarkerIcon(placesArray[i]);
       }
     }
   }
 };
 
 TweetsFinder.prototype.changeMarkerIcon = function(place) {
-  for (var i = 0; i < this.placesFinder.placesMarkerArray.length; i++) {
-    if (this.placesFinder.placesMarkerArray[i].placeId === place.place_id) {
-      this.googleAPI.changeMarkerIcon(this.placesFinder.placesMarkerArray[i]);
+  var _this = this;
+  for (var i = 0; i < _this.placesFinder.placesMarkerArray.length; i++) {
+    if (_this.placesFinder.placesMarkerArray[i].placeId === place.place_id) {
+      _this.googleAPI.changeMarkerIcon(_this.placesFinder.placesMarkerArray[i]);
     }
   }
 };

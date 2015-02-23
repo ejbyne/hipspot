@@ -9,9 +9,10 @@ MapController.prototype.setCurrentPosition = function(position) {
   this.userLongitude = position.coords.longitude;
 };
 
-MapController.prototype.performSearch = function() {
-  this.placesFinder.placesSearch();
-  this.tweetsFinder.tweetsSearch();
+MapController.prototype.performSearch = function(_this) {
+  console.log(this);
+  _this.placesFinder.placesSearch();
+  _this.tweetsFinder.tweetsSearch();
   $("#pac-input").val('');
 };
 
@@ -26,7 +27,7 @@ MapController.prototype.initialize = function(position) {
   this.setCurrentPosition(position);
   this.googleAPI.createMap(this.userLatitude, this.userLongitude);
   this.googleAPI.addPlacesService();
-  this.googleAPI.addMapListener(this, this.performSearch);
+  this.googleAPI.addMapListener(this);
   this.currentPositionMarker = this.googleAPI.createCurrentPositionMarker(
     this.userLatitude, this.userLongitude
   );

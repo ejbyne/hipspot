@@ -2,28 +2,30 @@ var PlacesFinder = function(googleAPI) {
   this.googleAPI = googleAPI;
   this.placesMarkerArray = [];
   this.placesArray = [];
-  this.chosenPlacesFilter = [''];
 };
 
 PlacesFinder.prototype.placesSearch = function() {
-  for (var i = 0; i < this.placesMarkerArray.length; i++) {
-    this.googleAPI.clearMarker(this.placesMarkerArray[i]);
+  var _this = this;
+  for (var i = 0; i < _this.placesMarkerArray.length; i++) {
+    _this.googleAPI.clearMarker(_this.placesMarkerArray[i]);
   }
   this.placesMarkerArray = [];
-  this.googleAPI.searchPlaces(this.chosenPlacesFilter, this.processSearch);
+  this.googleAPI.searchPlaces();
+  // this.googleAPI.searchPlaces(this.processSearch);
 };
 
-PlacesFinder.prototype.processSearch = function(searchResults, status) {
-  this.createPlacesMarkers(searchResults, findHipSpots); /* ??? */
+PlacesFinder.prototype.processSearch = function(searchResults) {
+  this.createPlacesMarkers(searchResults);
   if (this.markerClusterer) {
     this.googleAPI.clearClusterer(this.markerClusterer);
   }
-  this.markerClusterer = this.googleAPI.createClusterer();
+  this.markerClusterer = this.googleAPI.createClusterer(this.placesMarkerArray);
 };
 
 PlacesFinder.prototype.createPlacesMarkers = function(searchResults) {
+  var _this = this;
   for (var i = 0; i < searchResults.length; i++) {
-    this.createPlacesMarker(searchResults[i]);
+    _this.createPlacesMarker(searchResults[i]);
   }
 }
 
