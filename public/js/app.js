@@ -1,9 +1,9 @@
 $(function() {
 
-  var googleAPI = new GoogleAPI();
-  var placesFinder = new PlacesFinder(googleAPI);
-  var tweetsFinder = new TweetsFinder(googleAPI, placesFinder);
-  var mapController = new MapController(googleAPI, placesFinder, tweetsFinder);
+  var googleMap = new GoogleMap();
+  var placesFinder = new PlacesFinder(googleMap);
+  var tweetsFinder = new TweetsFinder(googleMap, placesFinder);
+  var mapController = new MapController(googleMap, placesFinder, tweetsFinder);
 
   var loadMap = function(position) {
   	mapController.initialize(position);
@@ -25,7 +25,7 @@ $(function() {
 
   navigator.geolocation.getCurrentPosition(loadMap, error, options);
   navigator.geolocation.watchPosition(updatePosition, error, options);
-  
+
   $('.tlt').textillate({
     in: { effect: 'splat', delay: 20 },
     out: { effect: 'bounceOut', delay: 20 },
@@ -51,17 +51,18 @@ $(function() {
 
   $('.placesFilter').on('click', function(event) {
     event.preventDefault();
-    googleAPI.chosenPlacesFilter = [$(this).data('filter')];
-    googleAPI.placesImage = "img/" + $(this).data('filter') + ".svg";
+    placesFinder.chosenPlacesFilter = [$(this).data('filter')];
+    placesFinder.placesImage = "img/" + $(this).data('filter') + ".svg";
     placesFinder.placesSearch();
   });
 
   $('.current-location').on('click', function(event) {
     event.preventDefault();
     var currentLocation = new google.maps.LatLng(mapController.userLatitude, mapController.userLongitude);
-    googleAPI.googleMap.setCenter(currentLocation);
+    googleMap.googleMap.setCenter(currentLocation);
     $("#pac-input").attr("placeholder", "Find location");
     $("#pac-input").val('');
   });
+
 });
 

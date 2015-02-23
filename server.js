@@ -25,10 +25,10 @@ app.get('/', function(request, response) {
 });
 
 app.post('/tweetinfo', function(request, response) {
-  Tweet.find({ longitude: { $gt: request.body.swLongitude , $lt: request.body.neLongitude },
-               latitude:  { $gt: request.body.swLatitude , $lt: request.body.neLatitude },
-               timeSlot:  request.body.timeSlot
-             }, { longitude: 1, latitude: 1, _id: 0 },
+  Tweet.find( { longitude: { $gt: request.body.swLongitude , $lt: request.body.neLongitude },
+                latitude:  { $gt: request.body.swLatitude , $lt: request.body.neLatitude },
+                timeSlot:  request.body.timeSlot
+              }, { longitude: 1, latitude: 1, _id: 0 },
              function(err, tweets) {
     if (err)
       response.send(err);
@@ -39,13 +39,3 @@ app.post('/tweetinfo', function(request, response) {
 server.listen(port, function() {
   console.log('Server listening on port ' + port);
 });
-
-// app.get('/tweetinfo', function(request, response) {
-//   var tweetsArray = [];
-//   var stream = Tweet.find().stream();
-//   stream.on('data', function(tweet) {
-//     tweetsArray.push([tweet.longitude, tweet.latitude])
-//   }).on('close', function() {
-//     response.json(tweetsArray);
-//   });
-// });

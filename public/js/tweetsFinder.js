@@ -1,5 +1,5 @@
-var TweetsFinder = function(googleAPI, placesFinder) {
-  this.googleAPI = googleAPI;
+var TweetsFinder = function(googleMap, placesFinder) {
+  this.googleMap = googleMap;
   this.placesFinder = placesFinder;
 };
 
@@ -9,36 +9,50 @@ TweetsFinder.prototype.defaultTimeSlot = function() {
 
 TweetsFinder.prototype.tweetsSearch = function() {
   var _this = this;
-  this.googleAPI.getMapCoords(function(coords) {
-    var searchParams = coords;
-    searchParams.timeSlot = _this.chosenTimeSlot || _this.defaultTimeSlot();
-    $.post('/tweetinfo', searchParams, function(data) {
-      if (Array.isArray(data)) {
-        _this.showTweetData(data);
-        _this.tweetData = data;
-        _this.findHipSpots();
-      }
-    });
+  var searchParams = this.googleMap.getMapCoords();
+  searchParams.timeSlot = _this.chosenTimeSlot || _this.defaultTimeSlot();
+  $.post('/tweetinfo', searchParams, function(data) {
+    if (Array.isArray(data)) {
+      _this.showTweetData(data);
+      _this.tweetData = data;
+    }
   });
 };
 
 TweetsFinder.prototype.showTweetData = function(data) {
   if (this.heatMap) {
-    this.googleAPI.clearHeatMap(this.heatMap);
+    this.googleMap.clearHeatMap(this.heatMap);
   }
-  this.heatMap = this.googleAPI.drawHeatMap(data);
+  this.heatMap = this.googleMap.drawHeatMap(data);
 };
+
+// TweetsFinder.prototype.findHipSpots = function() {
+//   var _this = this;
+//   this.hipSpots = {};
+//   for (var i = 0; i < _this.placesFinder.placesArray.length; i++) {
+//     _this.googleMap.resetMarkerIcon(_this.placesFinder.placesMarkerArray[i], _this.placesFinder.placesImage);
+//     for (var j = 0; j < _this.tweetData.length; j++) {
+//       if (_this.isTweetFromPlace(i, j)) {
+//         _this.recordHipSpot(i);
+//         if (_this.isPopularPlace(i)) {
+//           _this.changeMarkerIcon(_this.placesFinder.placesArray[i]);
+//         }
+//       }
+//     }
+//   }
+// };
 
 TweetsFinder.prototype.findHipSpots = function() {
   var _this = this;
   this.hipSpots = {};
-  for (var i = 0; i < _this.placesFinder.placesMarkerArray.length; i++) {
-    _this.googleAPI.resetMarkerIcon(_this.placesFinder.placesMarkerArray[i]);
+  for (var i = 0; i < _this.placesFinder.placesArray.length; i++) {
+    _this.googleMap.resetMarkerIcon(_this.placesFinder.placesMarkerArray[i], _this.placesFinder.placesImage);
     for (var j = 0; j < _this.tweetData.length; j++) {
       if (_this.isTweetFromPlace(i, j)) {
         _this.recordHipSpot(i);
-        if (_this.isPopularPlace(i))
-          _this.changeMarkerIcon(placesArray[i]);
+        if (_this.isPopularPlace(i)) {
+          _this.changeMarkerIcon(_this.placesFinder.placesArray[i]);
+        }
       }
     }
   }
@@ -48,7 +62,7 @@ TweetsFinder.prototype.changeMarkerIcon = function(place) {
   var _this = this;
   for (var i = 0; i < _this.placesFinder.placesMarkerArray.length; i++) {
     if (_this.placesFinder.placesMarkerArray[i].placeId === place.place_id) {
-      _this.googleAPI.changeMarkerIcon(_this.placesFinder.placesMarkerArray[i]);
+      _this.googleMap.changeMarkerIcon(_this.placesFinder.placesMarkerArray[i], _this.placesFinder.chosenPlacesFilter);
     }
   }
 };

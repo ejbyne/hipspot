@@ -1,5 +1,5 @@
-var MapController = function(googleAPI, placesFinder, tweetsFinder) {
-	this.googleAPI = googleAPI;
+var MapController = function(googleMap, placesFinder, tweetsFinder) {
+	this.googleMap = googleMap;
   this.placesFinder = placesFinder;
   this.tweetsFinder = tweetsFinder;
 };
@@ -9,10 +9,9 @@ MapController.prototype.setCurrentPosition = function(position) {
   this.userLongitude = position.coords.longitude;
 };
 
-MapController.prototype.performSearch = function(_this) {
-  console.log(this);
-  _this.placesFinder.placesSearch();
-  _this.tweetsFinder.tweetsSearch();
+MapController.prototype.performSearch = function() {
+  this.placesFinder.placesSearch();
+  this.tweetsFinder.tweetsSearch();
   $("#pac-input").val('');
 };
 
@@ -25,20 +24,23 @@ MapController.prototype.showMap = function() {
 
 MapController.prototype.initialize = function(position) {
   this.setCurrentPosition(position);
-  this.googleAPI.createMap(this.userLatitude, this.userLongitude);
-  this.googleAPI.addPlacesService();
-  this.googleAPI.addMapListener(this);
-  this.currentPositionMarker = this.googleAPI.createCurrentPositionMarker(
+  this.googleMap.createMap(this.userLatitude, this.userLongitude);
+  this.googleMap.addPlacesService();
+  this.googleMap.addMapListener(this);
+  this.currentPositionMarker = this.googleMap.createCurrentPositionMarker(
     this.userLatitude, this.userLongitude
   );
-  this.googleAPI.addSearchBox();
+  this.googleMap.addSearchBox();
   this.showMap();
+  this.googleMap.placesFinder = this.placesFinder;
+  this.googleMap.tweetsFinder = this.tweetsFinder;
+  this.placesFinder.tweetsFinder = this.tweetsFinder;
 };
 
 MapController.prototype.updatePosition = function(position) {
   if (this.currentPositionMarker) {
-    this.googleAPI.clearMarker(this.currentPositionMarker);
+    this.googleMap.clearMarker(this.currentPositionMarker);
   }
   this.setCurrentPosition(position);
-  this.googleAPI.createCurrentPositionMarker(this.userLatitude, this.userLongitude);
+  this.googleMap.createCurrentPositionMarker(this.userLatitude, this.userLongitude);
 };
