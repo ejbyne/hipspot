@@ -5,6 +5,10 @@ html body #map-canvas {
   display: none;
 }
 
+#infoModalContent {
+  display: none;
+}
+
 #map-canvas img {
   max-width: none !important;
   height: auto !important;

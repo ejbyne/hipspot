@@ -9,14 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
     <link rel="stylesheet" type="text/css" href="css/mobile.css" media="(max-width: 525px)">
     <link rel="stylesheet" type="text/css" href="css/laptop.css" media="(min-width: 526px)">
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,visualization"></script>
-    <script src="vendor/markerclusterer_packed.js"></script>
-    <script src="js/googleMap.js"></script>
-    <script src="js/mapController.js"></script>
-    <script src="js/placesFinder.js"></script>
-    <script src="js/tweetsFinder.js"></script>
-    <script src="js/app.js"></script>
+    <link href="css/animate.css" rel="stylesheet">
   </head>
 
   <body>
@@ -82,20 +75,41 @@
         <li><a href="#" class="button" data-pick="6">20:00<br>00:00</a></li>
       </ul>
     </footer>
-    <script src="vendor/foundation/jquery.js"></script>
-    <script src="vendor/foundation/modernizr.js"></script>
-    <script src="vendor/foundation/foundation.min.js"></script>
-    <script src="vendor/foundation/foundation.topbar.js"></script>
-    <script src="vendor/foundation/slider.js"></script>
-    <script src="vendor/foundation.js"></script>
     <section class="splashScreen">
       <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
       <img id="logo" src="/img/hipster-logo.svg">
       <h1 class="tlt" data-in-effect="rollIn">hipSpot</h1>
     </section>
+
+    <template id='infoModalContent'>
+      <div id="closeModal">✕</div>
+      <strong>{{ result.name }}</strong><br>
+      {{ result.vicinity }} {{ result.address_components[result.address_components.length-1].long_name }}<br>
+      <a href="{{ result.website }}">{{ result.website }}</a>
+      <br><strong>Opening Hours:</strong><br>
+      {{ #result.opening_hours.weekday_text }}
+        {{.}}<br>
+      {{ /result.opening_hours.weekday_text }}
+    </template>
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,visualization"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js'></script>
+    <script src="vendor/markerclusterer_packed.js"></script>
+    <script src="js/eventHandler.js"></script>
+    <script src="js/googleMap.js"></script>
+    <script src="js/googleSearchBox.js"></script>
+    <script src="js/mapController.js"></script>
+    <script src="js/placesFinder.js"></script>
+    <script src="js/tweetsFinder.js"></script>
+    <script src="js/app.js"></script>
+    <script src="vendor/foundation/modernizr.js"></script>
+    <script src="vendor/foundation/foundation.min.js"></script>
+    <script src="vendor/foundation/foundation.topbar.js"></script>
+    <script src="vendor/foundation/slider.js"></script>
+    <script src="vendor/foundation.js"></script>
     <script src="vendor/jquery.textillate.js"></script>
     <script src="vendor/bounce.js"></script>
-    <link href="css/animate.css" rel="stylesheet">
     <script src="vendor/jquery.lettering.js"></script>
   </body>
 

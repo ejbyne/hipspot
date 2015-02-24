@@ -1,7 +1,6 @@
 var TweetsFinder = function(googleMap, placesFinder) {
   this.googleMap = googleMap;
   this.placesFinder = placesFinder;
-  this.chosenTimeSlot = null;
 };
 
 TweetsFinder.prototype.defaultTimeSlot = function() {
@@ -29,7 +28,7 @@ TweetsFinder.prototype.findHipSpots = function() {
   var _this = this;
   this.hipSpots = {};
   this.placesFinder.placesMarkerArray.forEach(function(marker) {
-    _this.googleMap.resetMarkerIcon(marker, _this.placesFinder.placesImage);
+    _this.googleMap.resetMarkerIcon(marker, _this.placesFinder.chosenPlacesFilter);
     _this.compareTweetData(marker, _this);
     if (_this.isPopularPlace(marker)) {
       _this.googleMap.changeMarkerIcon(marker, _this.placesFinder.chosenPlacesFilter);

@@ -1,9 +1,6 @@
 var PlacesFinder = function(googleMap) {
   this.googleMap = googleMap;
   this.placesMarkerArray = [];
-  this.tweetsFinder = null;
-  this.chosenPlacesFilter = null;
-  this.placesImage = null;
 };
 
 PlacesFinder.prototype.placesSearch = function() {
@@ -22,7 +19,7 @@ PlacesFinder.prototype.processSearch = function(searchResults) {
   if (this.markerClusterer) {
     this.googleMap.clearClusterer(this.markerClusterer);
   }
-  this.markerClusterer = this.googleMap.createClusterer(this.placesMarkerArray, this.placesImage);
+  this.markerClusterer = this.googleMap.createClusterer(this.placesMarkerArray, this.chosenPlacesFilter);
 };
 
 PlacesFinder.prototype._createPlacesMarkers = function(searchResults) {
@@ -35,6 +32,6 @@ PlacesFinder.prototype._createPlacesMarkers = function(searchResults) {
 };
 
 PlacesFinder.prototype._createPlacesMarker = function(place) {
-  var placesMarker = this.googleMap.createPlacesMarker(place, this.placesImage);
+  var placesMarker = this.googleMap.createPlacesMarker(place, this.chosenPlacesFilter);
   this.placesMarkerArray.push(placesMarker);
 };
