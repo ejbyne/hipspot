@@ -6,7 +6,7 @@ Final Project at Makers Academy
 Climate](https://codeclimate.com/github/ejbyne/hipspot/badges/gpa.svg)](https://codeclimate.com/github/ejbyne/hipspot) [![Test
 Coverage](https://codeclimate.com/github/ejbyne/hipspot/badges/coverage.svg)](https://codeclimate.com/github/ejbyne/hipspot)
 
-[Link to Final Product](www.hipspot.uk)
+[Link to Final Product](http://hipspot.uk/)
 
 ###Brief
 
