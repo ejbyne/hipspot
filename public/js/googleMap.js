@@ -17,14 +17,14 @@ GoogleMap.prototype.addMapListener = function(mapController) {
   });
 };
 
-GoogleMap.prototype.searchPlaces = function() {
+GoogleMap.prototype.searchPlaces = function(placesFinder) {
   var _this = this;
   var request = {
     bounds: this.getMapBounds(),
-    types: this.placesFinder.chosenPlacesFilter
+    types: placesFinder.chosenPlacesFilter
   };
   this.placesService.radarSearch(request, function(searchResults) {
-    _this.placesFinder.processSearch(searchResults, _this.tweetsFinder.findHipSpots);
+    placesFinder.processSearch(searchResults);
   });
 };
 
@@ -51,12 +51,12 @@ GoogleMap.prototype.createCurrentPositionMarker = function(userLatitude, userLon
   });
 };
 
-GoogleMap.prototype.createPlacesMarker = function(place) {
+GoogleMap.prototype.createPlacesMarker = function(place, placesImage) {
   var placesMarker = new google.maps.Marker({
     placeId: place.place_id,
     map: this.map,
     position: place.geometry.location,
-    icon: new google.maps.MarkerImage(this.placesFinder.placesImage)
+    icon: new google.maps.MarkerImage(placesImage)
   });
   this.addMarkerListener(place, placesMarker);
   return placesMarker;
@@ -83,8 +83,19 @@ GoogleMap.prototype.clearMarker = function(marker) {
   marker.setMap(null);
 };
 
-GoogleMap.prototype.createClusterer = function() {
-  return new MarkerClusterer(this.map, this.placesFinder.placesMarkerArray, this.clustererOptions());
+GoogleMap.prototype.resetMarkerIcon = function(marker, placesImage) {
+	marker.setIcon(new google.maps.MarkerImage(placesImage));
+};
+
+GoogleMap.prototype.changeMarkerIcon = function(marker, chosenPlacesFilter) {
+	marker.setIcon(new google.maps.MarkerImage(
+		'img/star-'+ chosenPlacesFilter + '.svg',
+		null, null, null, new google.maps.Size(36,36))
+	);
+};
+
+GoogleMap.prototype.createClusterer = function(placesMarkerArray, placesImage) {
+  return new MarkerClusterer(this.map, placesMarkerArray, this.clustererOptions(placesImage));
 };
 
 GoogleMap.prototype.clearClusterer = function(clusterer) {
@@ -106,17 +117,6 @@ GoogleMap.prototype.drawHeatMap = function(data) {
 
 GoogleMap.prototype.clearHeatMap = function(heatMap) {
   heatMap.setMap(null);
-};
-
-GoogleMap.prototype.resetMarkerIcon = function(marker) {
-	marker.setIcon(new google.maps.MarkerImage(this.placesFinder.placesImage));
-};
-
-GoogleMap.prototype.changeMarkerIcon = function(marker) {
-	marker.setIcon(new google.maps.MarkerImage(
-		'img/star-'+ this.placesFinder.chosenPlacesFilter + '.svg',
-		null, null, null, new google.maps.Size(36,36))
-	);
 };
 
 GoogleMap.prototype.addSearchBox = function() {
@@ -206,12 +206,12 @@ GoogleMap.prototype.mapOptions = function(userLatitude, userLongitude) {
   };
 };
 
-GoogleMap.prototype.clustererOptions = function() {
+GoogleMap.prototype.clustererOptions = function(placesImage) {
   return {
     maxZoom: 16,
     styles: [{
               height: 50,
-              url: this.placesFinder.placesImage,
+              url: placesImage,
               width: 50,
               textSize: 10
             }]

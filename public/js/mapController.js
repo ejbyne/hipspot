@@ -32,9 +32,6 @@ MapController.prototype.initialize = function(position) {
   );
   this.googleMap.addSearchBox();
   this.showMap();
-  this.googleMap.placesFinder = this.placesFinder;
-  this.googleMap.tweetsFinder = this.tweetsFinder;
-  this.placesFinder.tweetsFinder = this.tweetsFinder;
 };
 
 MapController.prototype.updatePosition = function(position) {

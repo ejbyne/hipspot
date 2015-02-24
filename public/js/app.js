@@ -4,6 +4,7 @@ $(function() {
   var placesFinder = new PlacesFinder(googleMap);
   var tweetsFinder = new TweetsFinder(googleMap, placesFinder);
   var mapController = new MapController(googleMap, placesFinder, tweetsFinder);
+  placesFinder.tweetsFinder = tweetsFinder;
 
   var loadMap = function(position) {
   	mapController.initialize(position);
