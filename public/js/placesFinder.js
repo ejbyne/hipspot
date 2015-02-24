@@ -1,7 +1,6 @@
 var PlacesFinder = function(googleMap) {
   this.googleMap = googleMap;
   this.placesMarkerArray = [];
-  this.placesArray = [];
 };
 
 PlacesFinder.prototype.placesSearch = function() {
@@ -33,7 +32,5 @@ PlacesFinder.prototype.createPlacesMarkers = function(searchResults) {
 
 PlacesFinder.prototype.createPlacesMarker = function(place) {
   var placesMarker = this.googleMap.createPlacesMarker(place, this.placesImage);
-  this.placesArray.push(place);
   this.placesMarkerArray.push(placesMarker);
-  console.log(placesMarker);
 };
