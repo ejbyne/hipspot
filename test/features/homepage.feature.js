@@ -28,9 +28,16 @@ describe('Homepage', function() {
     });
   });
  
-  it('loads application JavaScript file', function() {
+  it('loads application JavaScript files', function() {
     casper.then(function() {
       expect('/js/app.js').to.be.loaded;
+      expect('/js/eventHandler.js').to.be.loaded;
+      expect('/js/googleMap.js').to.be.loaded;
+      expect('/js/googleSearchBox.js').to.be.loaded;
+      expect('/js/mapController.js').to.be.loaded;
+      expect('/js/placesFinder.js').to.be.loaded;
+      expect('/js/tweetsFinder.js').to.be.loaded;
     });
   });
+
 });

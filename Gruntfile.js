@@ -1,8 +1,9 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
-    // configure plugins
+
     jasmine: {
       src: ['public/js/mapController.js', 'public/js/placesFinder.js', 'public/js/tweetsFinder.js'],
       options: {
@@ -13,7 +14,6 @@ module.exports = function(grunt) {
     jshint: {
       files: ['Gruntfile.js', 'package.json', 'public/js/*.js'],
       options: {
-        // options here to override JSHint defaults
         globals: {
           jQuery: true,
           console: true,
@@ -32,15 +32,8 @@ module.exports = function(grunt) {
       }
      },
     watch: {
-      files: ['./server.js', './public/**', './test/**/*.js', './spec/**/*.js'],
+      files: ['server.js', 'public/js/*.js', 'test/**/*.js', 'spec/**/*.js'],
       tasks: ['env:test', 'express:test', 'execute', 'mochaTest', 'jshint', 'jasmine', 'mocha_casperjs']
-    },
-    express: {
-      test: {
-        options: {
-          script: 'server.js'
-        }
-      }
     },
     mocha_casperjs: {
       options: {
@@ -49,19 +42,28 @@ module.exports = function(grunt) {
         src: ['test/features/*.js']
       }
     },
+    express: {
+      options: {
+        port: 4000
+      },
+      test: {
+        options: {
+          script: 'server.js'
+        }
+      }
+    },
     env: {
       test: {
         NODE_ENV: 'test'
-      },
+      }
     },
     execute: {
       target: {
-        src: ['./test/apiTests/tweetSearch.js']
+        src: ['test/apiTests/tweetSearch.js']
       }
     }
   });
 
-  // load plugins
   [
   'grunt-jasmine-node',
   'grunt-contrib-jshint',
@@ -77,4 +79,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['env:test', 'express:test', 'execute', 'mochaTest', 'jshint', 'jasmine', 'mocha_casperjs']);
+
 };

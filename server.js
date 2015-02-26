@@ -30,8 +30,9 @@ app.post('/tweetinfo', function(request, response) {
                 timeSlot:  request.body.timeSlot
               }, { longitude: 1, latitude: 1, _id: 0 },
              function(err, tweets) {
-    if (err)
+    if (err) {
       response.send(err);
+    }
     response.json(tweets);
   });
 });

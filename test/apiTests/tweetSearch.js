@@ -32,7 +32,7 @@ function runTests() {
 function boundsTest() {
   api()
     .json()
-    .post('http://localhost:3000/tweetinfo')
+    .post('http://localhost:4000/tweetinfo')
     .send( {  neLatitude:   51.5189,
               neLongitude:  -0.0664,
               swLatitude:   51.5157,
@@ -53,7 +53,7 @@ function boundsTest() {
 function timeslotTest() {
   api()
     .json()
-    .post('http://localhost:3000/tweetinfo')
+    .post('http://localhost:4000/tweetinfo')
     .send( {  neLatitude:   51.5189,
               neLongitude:  -0.0664,
               swLatitude:   51.5157,

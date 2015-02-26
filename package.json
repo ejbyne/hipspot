@@ -1,10 +1,10 @@
 {
-  "name": "hipspot",
+  "name": "hipSpot",
   "version": "1.0.0",
-  "description": "This is our final project.",
+  "description": "This is our final project at Makers Academy",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
