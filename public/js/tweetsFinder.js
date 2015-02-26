@@ -46,7 +46,7 @@ TweetsFinder.prototype.compareTweetData = function(marker, _this) {
 
 TweetsFinder.prototype.isTweetFromPlace = function(marker, tweet) {
   return (Math.abs(marker.position.k - tweet.latitude) < 0.0001 &&
-  Math.abs(marker.position.D - tweet.longitude) < 0.0001);
+    Math.abs(marker.position.D - tweet.longitude) < 0.0001);
 };
 
 TweetsFinder.prototype.recordHipSpot = function(marker) {

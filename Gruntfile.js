@@ -33,7 +33,7 @@ module.exports = function(grunt) {
      },
     watch: {
       files: ['./server.js', './public/**', './test/**/*.js', './spec/**/*.js'],
-      tasks: ['express:test', 'mocha_casperjs', 'env:test', 'execute', 'mochaTest', 'jshint', 'jasmine']
+      tasks: ['env:test', 'express:test', 'execute', 'mochaTest', 'jshint', 'jasmine', 'mocha_casperjs']
     },
     express: {
       test: {
@@ -76,6 +76,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks(task);
   });
 
-  // grunt.registerTask('default', ['env:test', 'express:test', 'execute', 'mochaTest', 'jshint', 'jasmine', 'mocha_casperjs']);
-  grunt.registerTask('default', ['jshint', 'jasmine']);
+  grunt.registerTask('default', ['env:test', 'express:test', 'execute', 'mochaTest', 'jshint', 'jasmine', 'mocha_casperjs']);
 };
