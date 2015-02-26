@@ -85,7 +85,7 @@ EventHandler.prototype.setSearchBoxPlaceholder = function() {
 };
 
 EventHandler.prototype.renderInfoModal = function(result) {
-  var rendered = Mustache.render($('#infoModalContent').html(), { result: result })
+  var rendered = Mustache.render($('#infoModalContent').html(), { result: result });
   $('#infoModal').html(rendered).show();
   $('#closeModal').on('click', function() {
     $('#infoModal').hide();

@@ -4,9 +4,10 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     // configure plugins
     jasmine: {
-      src: 'public/js/app.js',
+      src: ['public/js/mapController.js', 'public/js/placesFinder.js', 'public/js/tweetsFinder.js'],
       options: {
-        specs: 'spec/viewTesting.js'
+        specs: 'spec/frontEnd/*Spec.js',
+        vendor: 'public/vendor/foundation/jquery.js'
       }
     },
     jshint: {
@@ -27,18 +28,17 @@ module.exports = function(grunt) {
           reporter: 'spec',
           quiet: false
         },
-        src: ['spec/tweets/models.js']
+        src: ['spec/models/*Spec.js']
       }
      },
     watch: {
-      files: ['./server.js', './public/**', './test/**/*.js'],
-      tasks: ['env:test', 'express', 'mochaTest', 'jshint', 'mocha_casperjs', 'execute', 'jasmine']
+      files: ['./server.js', './public/**', './test/**/*.js', './spec/**/*.js'],
+      tasks: ['express:test', 'mocha_casperjs', 'env:test', 'execute', 'mochaTest', 'jshint', 'jasmine']
     },
     express: {
-      options: {},
-      dev: {
+      test: {
         options: {
-          script: './server.js'
+          script: 'server.js'
         }
       }
     },
@@ -63,20 +63,19 @@ module.exports = function(grunt) {
 
   // load plugins
   [
-  'grunt-mocha-casperjs',
-  'grunt-express-server',
   'grunt-jasmine-node',
   'grunt-contrib-jshint',
   'grunt-contrib-watch',
   'grunt-contrib-jasmine',
   'grunt-mocha-test',
+  'grunt-mocha-casperjs',
   'grunt-env',
-  'grunt-execute'
+  'grunt-execute',
+  'grunt-express-server'
   ].forEach(function(task) {
     grunt.loadNpmTasks(task);
   });
 
-  grunt.registerTask('test', ['jshint']);
-
-  grunt.registerTask('default', ['watch']);
+  // grunt.registerTask('default', ['env:test', 'express:test', 'execute', 'mochaTest', 'jshint', 'jasmine', 'mocha_casperjs']);
+  grunt.registerTask('default', ['jshint', 'jasmine']);
 };

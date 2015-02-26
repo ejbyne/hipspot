@@ -1,7 +1,7 @@
 describe('Homepage', function() {
 
   before(function() {
-    casper.start('http://localhost:3000/');
+    casper.start('http://localhost:4000/');
   });
 
   it('displays the title', function() {

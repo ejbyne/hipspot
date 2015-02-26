@@ -10,18 +10,18 @@ TweetsFinder.prototype.defaultTimeSlot = function() {
 TweetsFinder.prototype.tweetsSearch = function() {
   var _this = this;
   var searchParams = this.googleMap.getMapCoords();
-  searchParams.timeSlot = _this.chosenTimeSlot || _this.defaultTimeSlot();
+  searchParams.timeSlot = this.chosenTimeSlot || this.defaultTimeSlot();
   $.post('/tweetinfo', searchParams, function(data) {
-      _this.showTweetData(data);
       _this.tweetData = data;
+      _this.showTweetData();
   });
 };
 
-TweetsFinder.prototype.showTweetData = function(data) {
+TweetsFinder.prototype.showTweetData = function() {
   if (this.heatMap) {
     this.googleMap.clearHeatMap(this.heatMap);
   }
-  this.heatMap = this.googleMap.drawHeatMap(data);
+  this.heatMap = this.googleMap.drawHeatMap(this.tweetData);
 };
 
 TweetsFinder.prototype.findHipSpots = function() {
