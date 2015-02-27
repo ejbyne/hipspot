@@ -1,5 +1,5 @@
 var MapController = function(googleMap, googleSearchBox, placesFinder, tweetsFinder) {
-	this.googleMap = googleMap;
+  this.googleMap = googleMap;
   this.googleSearchBox = googleSearchBox;
   this.placesFinder = placesFinder;
   this.tweetsFinder = tweetsFinder;
