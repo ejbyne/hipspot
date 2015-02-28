@@ -88,6 +88,8 @@ module.exports = function(grunt) {
   'grunt-contrib-jasmine',
   'grunt-mocha-test',
   'grunt-mocha-casperjs',
+  'grunt-run',
+  'grunt-mocha-cli',
   'grunt-env',
   'grunt-execute',
   'grunt-express-server'
