@@ -31,6 +31,10 @@ describe('Visiting the homepage', function() {
 
   it('contains a map element', function(done) {
     client
+      .elementIdDisplayed('map-canvas', function(err, result) {
+         expect(err).to.not.be.true;
+         expect(result).to.be.true;
+      })
       .call(done);
   });
 
