@@ -52,6 +52,23 @@ module.exports = function(grunt) {
         }
       }
     },
+   mochacli: {
+      options: {
+        require: ['chai'],
+        reporter: 'spec',
+        timeout: 60000,
+        bail: true
+      },
+      all: ['test/selenium/*.js']
+    },
+    run: {
+      selenium_server: {
+        options: {
+          wait: false
+        },
+        exec: 'selenium-standalone start &>/dev/null'
+      }
+    },
     env: {
       test: {
         NODE_ENV: 'test'
@@ -71,6 +88,8 @@ module.exports = function(grunt) {
   'grunt-contrib-jasmine',
   'grunt-mocha-test',
   'grunt-mocha-casperjs',
+  'grunt-run',
+  'grunt-mocha-cli',
   'grunt-env',
   'grunt-execute',
   'grunt-express-server'
@@ -79,5 +98,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['env:test', 'express:test', 'execute', 'mochaTest', 'jshint', 'jasmine', 'mocha_casperjs']);
+  grunt.registerTask('featuretest',['express:test', 'run:selenium_server', 'mochacli', 'stop:selenium_server']);
 
 };
