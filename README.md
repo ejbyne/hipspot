@@ -48,24 +48,24 @@ places near them. Our story board looked like this:
 
 During our pivot sequence we discovered that combining the google places API
 and twitter streaming API we could show the "popularity" of a venue based on
-the number of tweets eminating from it. Since we were consuming APIs we decided
+the number of tweets emanating from it. Since we were consuming APIs we decided
 to use a Javascript stack in order to keep JSON objects moving easily
-throughout the stack. 
+throughout the stack.
 
-Our team had two daily SCRUMs one in the morning, and one after lunch. During
+Our team had two daily SCRUMs: one in the morning, and one after lunch. During
 these meetings we discussed progress made, plans moving forward, changes needing
-consideration and updates required to our tracker. 
+consideration and updates required to our tracker.
 
 We worked in pairs for most of the project, although during particularly
 fundamental parts of the project we worked together as a four so that the knowledge was
-shared. For example during initial setup of the google map. 
+shared. For example during initial setup of the google map.
 
 During our early pivoting sequence, we determined that the Twitter Public API
 had a limitation in that queries would only ever return 100 tweets, and were
 subject to rate limiting. For that reason, we decided that we would instead
 record the Twitter Streaming API to file and make our own database of data. To
 get that process started quickly, we recorded tweets straight to .txt files on
-a day by day basis. 
+a day by day basis.
 
 We quickly found that only 6 or so hours of tweets gave us a file of about
 120MB. About half of which didn't contain accurate geoJSON information so
