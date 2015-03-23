@@ -33,5 +33,7 @@ MapController.prototype.updatePosition = function(position) {
     this.googleMap.clearMarker(this.currentPositionMarker);
   }
   this.setCurrentPosition(position);
-  this.googleMap.createCurrentPositionMarker(this.userLatitude, this.userLongitude);
+  this.currentPositionMarker = this.googleMap.createCurrentPositionMarker(
+    this.userLatitude, this.userLongitude
+  );
 };
